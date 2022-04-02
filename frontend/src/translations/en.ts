@@ -1,0 +1,43 @@
+export default {
+  start: 'start',
+  actions: 'actions',
+  time: {
+    minute_one: 'minute',
+    minute_other: 'minutes',
+    hour_one: 'hour',
+    hour_other: 'hours',
+  },
+  language: {
+    de: 'German',
+    en: 'English',
+    pl: 'Polish',
+    ru: 'Russian',
+  },
+  gameType: {
+    0: 'Gothic',
+    1: 'Gothic II',
+    2: 'Gothic III',
+    3: 'Gothic & Gothic II',
+    4: 'Game',
+  },
+  modType: {
+    0: 'Total conversion',
+    1: 'Expansion',
+    2: 'Patch',
+    3: 'Tool',
+    4: 'Original',
+    5: 'Multiplayer',
+  },
+  project: {
+    id: 'id',
+    name: 'name',
+    author: 'author',
+    type: 'type',
+    game: 'game',
+    developerPlaytime: 'developer playtime',
+    releaseDate: 'released at',
+    updateDate: 'last updated at',
+    languages: 'languages',
+    downloadSize: 'download size',
+  },
+};
