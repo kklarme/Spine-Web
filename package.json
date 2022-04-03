@@ -18,8 +18,7 @@
   },
   "workspaces": [
     "api",
-    "frontend",
-    "backend"
+    "app"
   ],
   "author": "m-ripper"
 }

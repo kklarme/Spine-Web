@@ -1,19 +1,28 @@
 import { createElement, FC } from 'react';
 import { LANGUAGE_COUNTRY_FLAG_MAP } from '../constants';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
 const DefaultLayout: FC = (props) => {
   const { i18n } = useTranslation();
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <div className="h-14 flex items-center flex-shrink-0 justify-between px-4 bg-gray-500 text-white">
-        <a href="https://clockwork-origins.com/de/spine/" target="_blank" className="block h-full p-1">
-          <img className="max-h-full object-contain" src="/logo.png" />
+        <a
+          href="https://clockwork-origins.com/de/spine/"
+          target="_blank"
+          rel="noreferrer"
+          className="block h-full p-1"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="Spine Logo" className="max-h-full object-contain" />
         </a>
 
-        <a href="/">
-          <p className="font-bold text-xl text-black">Spine Web</p>
-        </a>
+        <Link href="/" passHref={true}>
+          <a target="_blank" rel="noreferrer">
+            <span className="font-bold text-xl text-black">Spine Web</span>
+          </a>
+        </Link>
 
         <div className="flex items-center space-x-2">
           {Object.entries(LANGUAGE_COUNTRY_FLAG_MAP).map(([language, flagComponent]) => {

@@ -12,7 +12,6 @@ import {
 } from 'react-table';
 import { FixedSizeList } from 'react-window';
 import LanguagesView from './LanguagesView';
-import './ProjectTable.css';
 
 export interface ProjectTableProps {
   projects: Project[];
@@ -128,7 +127,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Header: tc('project.releaseDate'),
         accessor: 'releaseDate',
         Cell: (props) => {
-          return <DefaultCell {...props} value={props.value.toLocaleDateString()} />;
+          return <DefaultCell {...props} value={props.value} />;
         },
         sortType: 'datetime',
       },
@@ -136,7 +135,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Header: tc('project.updateDate'),
         accessor: 'updateDate',
         Cell: (props) => {
-          return <DefaultCell {...props} value={props.value.toLocaleDateString()} />;
+          return <DefaultCell {...props} value={props.value} />;
         },
         sortType: 'datetime',
       },
@@ -226,7 +225,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   return (
     <div className="block max-w-full">
       <div className="block max-w-full overflow-x-scroll overflow-y-hidden border border-black">
-        <div {...getTableProps()} className="table">
+        <div {...getTableProps()} className="project-table table">
           <div className="thead">
             {headerGroups.map((headerGroup) => (
               <div {...headerGroup.getHeaderGroupProps()} className="tr">

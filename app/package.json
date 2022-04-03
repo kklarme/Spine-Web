@@ -1,0 +1,42 @@
+{
+  "name": "@spine-web/app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write src"
+  },
+  "dependencies": {
+    "country-flag-icons": "^1.4.25",
+    "i18next": "^21.6.14",
+    "i18next-browser-languagedetector": "^6.1.4",
+    "next": "12.1.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-i18next": "^11.16.2",
+    "react-table": "^7.7.0",
+    "react-window": "^1.8.6",
+    "spine-api": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/country-flag-icons": "^1.2.0",
+    "@types/node": "^14.18.12",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
+    "@types/react-table": "^7.7.10",
+    "@types/react-window": "^1.8.5",
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
+    "autoprefixer": "^10.4.2",
+    "eslint": "8.12.0",
+    "eslint-config-next": "12.1.4",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.6.2",
+    "tailwindcss": "^3.0.23",
+    "typescript": "4.6.3"
+  },
+  "prettier": "../.prettierrc.js"
+}

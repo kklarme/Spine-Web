@@ -1,5 +1,4 @@
 const colors = require('tailwindcss/colors');
-const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -7,7 +6,7 @@ module.exports = {
     extend: {
       colors: {
         primary: colors.amber,
-        accent: '#871313'
+        accent: '#871313',
       },
     },
   },
