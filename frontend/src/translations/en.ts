@@ -16,9 +16,9 @@ export default {
   gameType: {
     0: 'Gothic',
     1: 'Gothic II',
-    2: 'Gothic III',
     3: 'Gothic & Gothic II',
     4: 'Game',
+    5: 'Gothic III',
   },
   modType: {
     0: 'Total conversion',
@@ -27,6 +27,7 @@ export default {
     3: 'Tool',
     4: 'Original',
     5: 'Multiplayer',
+    7: 'Demo',
   },
   project: {
     id: 'id',

@@ -12,9 +12,9 @@ export interface RequestAllProjectsResponse {
 export enum GameType {
   Gothic1 = 0,
   Gothic2 = 1,
-  Gothic3 = 2,
   Gothic1And2 = 3,
   Game = 4,
+  Gothic3 = 5,
 }
 
 export enum ModType {
@@ -24,6 +24,7 @@ export enum ModType {
   Tool,
   Original,
   Multiplayer,
+  Demo = 7,
 }
 
 export interface RawProject {
