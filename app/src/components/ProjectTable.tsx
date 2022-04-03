@@ -5,6 +5,7 @@ import { capitalizeWord } from '../utilities';
 import {
   Column,
   SortByFn,
+  SortingRule,
   useFlexLayout,
   useResizeColumns,
   useSortBy,
@@ -127,7 +128,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Header: tc('project.releaseDate'),
         accessor: 'releaseDate',
         Cell: (props) => {
-          return <DefaultCell {...props} value={props.value} />;
+          return <DefaultCell {...props} value={props.value.toLocaleDateString()} />;
         },
         sortType: 'datetime',
       },
@@ -135,7 +136,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Header: tc('project.updateDate'),
         accessor: 'updateDate',
         Cell: (props) => {
-          return <DefaultCell {...props} value={props.value} />;
+          return <DefaultCell {...props} value={props.value.toLocaleDateString()} />;
         },
         sortType: 'datetime',
       },
@@ -179,9 +180,25 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
   const data = useMemo(
     () =>
-      props.projects.map((project) => ({ ...project, teamName: project.teamName || emptyValue })),
+      props.projects.map((project) => ({
+        ...project,
+        // make sure teamName always has a value
+        teamName: project.teamName || emptyValue,
+        // handle case if dates are strings due to being serialized by server
+        releaseDate: new Date(project.releaseDate),
+        updateDate: new Date(project.updateDate),
+      })),
     [props.projects, i18n.language],
   );
+
+  const initialSortBy = useMemo<SortingRule<Project>[]>(() => {
+    return [
+      {
+        id: 'updateDate',
+        desc: true,
+      },
+    ];
+  }, []);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -191,6 +208,9 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         minWidth: 44,
         maxWidth: 600,
         Cell: DefaultCell,
+      },
+      initialState: {
+        sortBy: initialSortBy,
       },
     },
     useResizeColumns,
