@@ -2,7 +2,14 @@ import { formatDownloadSize, Project } from 'spine-api';
 import { FC, useCallback, useMemo } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { capitalizeWord } from '../utilities';
-import { Column, useFlexLayout, useResizeColumns, useTable } from 'react-table';
+import {
+  Column,
+  SortByFn,
+  useFlexLayout,
+  useResizeColumns,
+  useSortBy,
+  useTable,
+} from 'react-table';
 import { FixedSizeList } from 'react-window';
 import LanguagesView from './LanguagesView';
 import './ProjectTable.css';
@@ -47,12 +54,22 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     [],
   );
 
+  const sortLanguages = useMemo<SortByFn<Project>>(
+    () => (rowA, rowB, columnId, desc) => {
+      const aLength = rowA.original.supportedLanguages.length;
+      const bLength = rowB.original.supportedLanguages.length;
+      return aLength - bLength;
+    },
+    [],
+  );
+
   const columns = useMemo<Column<Project>[]>(
     () => [
       {
         Header: tc('project.id'),
         accessor: 'id',
         width: 44,
+        sortType: 'number',
       },
       {
         Header: tc('project.name'),
@@ -61,6 +78,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Cell: (props) => {
           return <DefaultCell {...props} align="left" />;
         },
+        sortType: 'string',
       },
       {
         Header: tc('project.author'),
@@ -69,6 +87,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Cell: (props) => {
           return <DefaultCell {...props} align="left" />;
         },
+        sortType: 'string',
       },
       {
         Header: tc('project.type'),
@@ -76,6 +95,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Cell: (props) => {
           return <DefaultCell {...props} value={t(`modType.${props.value}`)} />;
         },
+        sortType: 'number',
       },
       {
         Header: tc('project.game'),
@@ -83,6 +103,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Cell: (props) => {
           return <DefaultCell {...props} value={t(`gameType.${props.value}`)} />;
         },
+        sortType: 'number',
       },
       {
         Header: tc('project.developerPlaytime'),
@@ -101,6 +122,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
           return <DefaultCell {...props} value={value} />;
         },
         width: 144,
+        sortType: 'number',
       },
       {
         Header: tc('project.releaseDate'),
@@ -108,6 +130,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Cell: (props) => {
           return <DefaultCell {...props} value={props.value.toLocaleDateString()} />;
         },
+        sortType: 'datetime',
       },
       {
         Header: tc('project.updateDate'),
@@ -115,6 +138,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Cell: (props) => {
           return <DefaultCell {...props} value={props.value.toLocaleDateString()} />;
         },
+        sortType: 'datetime',
       },
       {
         Header: tc('project.languages'),
@@ -122,6 +146,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Cell: (props) => {
           return <LanguagesView languages={props.value} />;
         },
+        sortType: sortLanguages,
       },
       {
         Header: tc('project.downloadSize'),
@@ -130,6 +155,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
           return <DefaultCell {...props} value={formatDownloadSize(props.value)} />;
         },
         width: 128,
+        sortType: 'number',
       },
       {
         Header: tc('actions'),
@@ -146,12 +172,17 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
           );
         },
         disableResizing: true,
+        disableSortBy: true,
       },
     ],
     [i18n.language],
   );
 
-  const data = useMemo(() => props.projects, [props.projects, i18n.language]);
+  const data = useMemo(
+    () =>
+      props.projects.map((project) => ({ ...project, teamName: project.teamName || emptyValue })),
+    [props.projects, i18n.language],
+  );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -165,6 +196,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     },
     useResizeColumns,
     useFlexLayout,
+    useSortBy,
   );
 
   const RenderRow = useCallback(
@@ -199,8 +231,9 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
             {headerGroups.map((headerGroup) => (
               <div {...headerGroup.getHeaderGroupProps()} className="tr">
                 {headerGroup.headers.map((column, index) => (
-                  <div {...column.getHeaderProps()} className="th">
+                  <div {...column.getHeaderProps(column.getSortByToggleProps())} className="th">
                     {column.render('Header')}
+                    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
                     {!(column as any).disableResizing && (
                       <div
                         {...column.getResizerProps()}
