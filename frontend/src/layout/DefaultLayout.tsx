@@ -7,7 +7,7 @@ const DefaultLayout: FC = (props) => {
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <div className="h-14 flex items-center flex-shrink-0 justify-between px-4 bg-gray-500 text-white">
-        <a href="https://clockwork-origins.com/de/spine/" className="block h-full p-1">
+        <a href="https://clockwork-origins.com/de/spine/" target="_blank" className="block h-full p-1">
           <img className="max-h-full object-contain" src="/logo.png" />
         </a>
 
