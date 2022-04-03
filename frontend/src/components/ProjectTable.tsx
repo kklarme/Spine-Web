@@ -231,9 +231,11 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
             {headerGroups.map((headerGroup) => (
               <div {...headerGroup.getHeaderGroupProps()} className="tr">
                 {headerGroup.headers.map((column, index) => (
-                  <div {...column.getHeaderProps(column.getSortByToggleProps())} className="th">
-                    {column.render('Header')}
-                    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+                  <div {...column.getHeaderProps()} className="th">
+                    <div {...column.getSortByToggleProps()} className="w-full">
+                      {column.render('Header')}
+                      <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+                    </div>
                     {!(column as any).disableResizing && (
                       <div
                         {...column.getResizerProps()}
