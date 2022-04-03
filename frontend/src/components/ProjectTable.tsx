@@ -31,18 +31,21 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     return capitalizeWord(tResult);
   };
 
-  const emptyValue = '-';
+  const emptyValue = useMemo(() => '-', []);
 
   const scrollBarSize = useMemo(() => detectScrollbarWidth(), []);
 
   // provide a default cell component that automatically truncates the value and provides additional props like align
-  const DefaultCell = (props: any) => {
-    return (
-      <p className={`truncate ${props.align ? `text-${props.align}` : ''}`} title={props.value}>
-        {props.value}
-      </p>
-    );
-  };
+  const DefaultCell = useMemo(
+    () => (props: any) => {
+      return (
+        <p className={`truncate ${props.align ? `text-${props.align}` : ''}`} title={props.value}>
+          {props.value}
+        </p>
+      );
+    },
+    [],
+  );
 
   const columns = useMemo<Column<Project>[]>(
     () => [
@@ -221,7 +224,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
             <FixedSizeList
               height={window.innerHeight - 200}
               itemCount={rows.length}
-              itemSize={35}
+              itemSize={32}
               width={'100%'}
             >
               {RenderRow}
