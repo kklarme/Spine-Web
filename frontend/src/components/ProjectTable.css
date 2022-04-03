@@ -24,7 +24,7 @@
 
   & .th,
   & .td {
-    @apply text-left justify-start m-0 border-b border-r border-black relative;
+    @apply flex items-center text-left justify-start m-0 border-b border-r border-black relative;
 
     &:last-child {
       @apply border-r-0;
