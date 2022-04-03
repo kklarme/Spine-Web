@@ -17,7 +17,7 @@ const LanguagesView: FC<LanguagesViewProps> = (props) => {
         createElement(LANGUAGE_COUNTRY_FLAG_MAP[language], {
           key: language,
           title: t(`language.${language}`),
-          className: props.flagClassName || 'w-6 h-6',
+          className: props.flagClassName || 'w-6 h-auto shadow',
         }),
       )}
     </div>

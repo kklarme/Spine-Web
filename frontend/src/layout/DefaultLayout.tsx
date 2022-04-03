@@ -20,14 +20,14 @@ const DefaultLayout: FC = (props) => {
             const isActive = i18n.language.split('-')[0] === language;
             return (
               <button
-                className={`flex border-b-2 ${
+                className={`flex items-center h-6 border-b-2 ${
                   isActive ? 'border-primary-500' : 'border-transparent'
                 }`}
                 key={language}
                 onClick={() => i18n.changeLanguage(language)}
               >
                 {createElement(flagComponent, {
-                  className: 'w-6 h-6',
+                  className: 'w-6 h-auto shadow',
                 })}
               </button>
             );
