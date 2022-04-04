@@ -66,7 +66,7 @@ export interface RawScreenshot {
 
 export interface RawProjectInfo {
   Name: string;
-  Screenshots: RawScreenshot[];
+  Screenshots?: RawScreenshot[];
   Description: string;
   Features?: string[];
   SpineFeatures: string;

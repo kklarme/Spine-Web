@@ -22,7 +22,7 @@ export class ProjectInfo {
 
   constructor(projectInfo: RawProjectInfo) {
     this.name = projectInfo.Name;
-    this.screenshots = projectInfo.Screenshots.map((screenshot) => ({
+    this.screenshots = (projectInfo.Screenshots || []).map((screenshot) => ({
       file: screenshot.File,
       hash: screenshot.Hash,
     }));
