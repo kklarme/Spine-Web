@@ -1,10 +1,18 @@
-import { createElement, FC } from 'react';
-import { LANGUAGE_COUNTRY_FLAG_MAP } from '../constants';
-import { useTranslation } from 'react-i18next';
+import { FC } from 'react';
 import Link from 'next/link';
+import LanguageSelect from '../components/LanguageSelect';
+import { Language } from 'spine-api';
+import { useRouter } from 'next/router';
 
 const DefaultLayout: FC = (props) => {
-  const { i18n } = useTranslation();
+  const router = useRouter();
+
+  const setLanguage = async (language: Language) => {
+    await router.push({ pathname: router.pathname, query: router.query }, router.asPath, {
+      locale: language,
+    });
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="h-14 flex items-center flex-shrink-0 justify-between px-4 bg-gray-500 text-white">
@@ -24,24 +32,7 @@ const DefaultLayout: FC = (props) => {
           </a>
         </Link>
 
-        <div className="flex items-center space-x-2">
-          {Object.entries(LANGUAGE_COUNTRY_FLAG_MAP).map(([language, flagComponent]) => {
-            const isActive = i18n.language.split('-')[0] === language;
-            return (
-              <button
-                className={`flex items-center h-6 border-b-2 ${
-                  isActive ? 'border-primary-500' : 'border-transparent'
-                }`}
-                key={language}
-                onClick={() => i18n.changeLanguage(language)}
-              >
-                {createElement(flagComponent, {
-                  className: 'w-6 h-auto shadow',
-                })}
-              </button>
-            );
-          })}
-        </div>
+        <LanguageSelect language={router.locale as Language} setLanguage={setLanguage} />
       </div>
       {/* for overflow flex container add below: flex flex-col min-h-0 overflow-auto */}
       {props.children}

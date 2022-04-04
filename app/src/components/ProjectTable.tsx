@@ -1,7 +1,7 @@
 import { formatDownloadSize, Project } from 'spine-api';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { capitalizeWord } from '../utilities';
+import { capitalizeWord, detectScrollbarWidth } from '../utilities';
 import {
   Column,
   FilterTypes,
@@ -21,18 +21,6 @@ import { matchSorter } from 'match-sorter';
 
 export interface ProjectTableProps {
   projects: Project[];
-}
-
-function detectScrollbarWidth(): number {
-  const scrollDiv = document.createElement('div');
-  scrollDiv.setAttribute(
-    'style',
-    'width: 100px; height: 100px; overflow: scroll; position:absolute; top:-9999px;',
-  );
-  document.body.appendChild(scrollDiv);
-  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-  document.body.removeChild(scrollDiv);
-  return scrollbarWidth;
 }
 
 export interface GlobalFilterProps {
@@ -309,7 +297,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   );
 
   // this is just a hardcoded value for now. TODO: find a way to programmatically get maximum height
-  const maxHeight = window.innerHeight - 200;
+  const maxHeight = typeof window === 'undefined' ? 500 : window.innerHeight - 200;
   const itemSize = 32;
 
   return (
