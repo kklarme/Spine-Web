@@ -31,7 +31,7 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
         <meta name="theme-color" content="#871313" />
       </Head>
 
-      <main>
+      <main className="px-6 py-3">
         <DynamicProjectListWithoutSSR projects={props.projects} />
       </main>
     </div>

@@ -308,54 +308,58 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     [prepareRow, rows],
   );
 
+  // this is just a hardcoded value for now. TODO: find a way to programmatically get maximum height
+  const maxHeight = window.innerHeight - 200;
+  const itemSize = 32;
+
   return (
-    <div className="max-w-full">
-      <div className="max-w-full overflow-x-scroll overflow-y-hidden border border-black">
-        <div {...getTableProps()} className="project-table table">
-          <div className="thead">
+    <div className="overflow-x-scroll border border-black">
+      <div {...getTableProps()} className="project-table table">
+        <div className="thead">
+          <div className="border-b border-black">
             <GlobalFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
               globalFilter={state.globalFilter}
               setGlobalFilter={setGlobalFilter}
             />
-            {headerGroups.map((headerGroup) => (
-              <div {...headerGroup.getHeaderGroupProps()} className="tr">
-                {headerGroup.headers.map((column, index) => (
-                  <div {...column.getHeaderProps()} className="th">
-                    <div {...column.getSortByToggleProps()} className="w-full">
-                      {column.render('Header')}
-                      <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
-                    </div>
-                    {!(column as any).disableResizing && (
-                      <div
-                        {...column.getResizerProps()}
-                        className={`resizer ${column.isResizing ? 'isResizing' : ''}`}
-                      />
-                    )}
+          </div>
+          {headerGroups.map((headerGroup) => (
+            <div {...headerGroup.getHeaderGroupProps()} className="tr">
+              {headerGroup.headers.map((column, index) => (
+                <div {...column.getHeaderProps()} className="th">
+                  <div {...column.getSortByToggleProps()} className="w-full">
+                    {column.render('Header')}
+                    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
                   </div>
-                ))}
-                <div
-                  className="border-b border-black"
-                  style={{
-                    width: scrollBarSize,
-                    content: ' ',
-                  }}
-                />
-              </div>
-            ))}
-          </div>
+                  {!(column as any).disableResizing && (
+                    <div
+                      {...column.getResizerProps()}
+                      className={`resizer ${column.isResizing ? 'isResizing' : ''}`}
+                    />
+                  )}
+                </div>
+              ))}
+              <div
+                className="border-b border-black"
+                style={{
+                  width: scrollBarSize,
+                  content: ' ',
+                }}
+              />
+            </div>
+          ))}
+        </div>
 
-          <div {...getTableBodyProps()} className="tbody">
-            <FixedSizeList
-              height={window.innerHeight - 200}
-              itemCount={rows.length}
-              itemSize={32}
-              width={'100%'}
-              style={{ overflowY: 'scroll' }}
-            >
-              {RenderRow}
-            </FixedSizeList>
-          </div>
+        <div {...getTableBodyProps()} className="tbody">
+          <FixedSizeList
+            height={Math.min(maxHeight, itemSize * rows.length)}
+            itemCount={rows.length}
+            itemSize={itemSize}
+            width={'100%'}
+            style={{ overflowY: 'scroll' }}
+          >
+            {RenderRow}
+          </FixedSizeList>
         </div>
       </div>
     </div>
