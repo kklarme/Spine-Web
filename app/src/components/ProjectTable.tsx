@@ -18,6 +18,7 @@ import {
 import { FixedSizeList } from 'react-window';
 import LanguagesView from './LanguagesView';
 import { matchSorter } from 'match-sorter';
+import Link from 'next/link';
 
 export interface ProjectTableProps {
   projects: Project[];
@@ -91,7 +92,10 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   const DefaultCell = useMemo(
     () => (props: any) => {
       return (
-        <p className={`truncate ${props.align ? `text-${props.align}` : ''}`} title={props.value}>
+        <p
+          className={`truncate ${props.align ? `text-${props.align}` : ''}`}
+          title={props.value.toString()}
+        >
           {props.value}
         </p>
       );
@@ -114,6 +118,20 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Header: tc('project.id'),
         accessor: 'id',
         width: 44,
+        Cell: (props) => {
+          return (
+            <Link
+              href={{
+                pathname: '/project/[id]',
+                query: { id: props.value },
+              }}
+            >
+              <a className={`truncate`} title={props.value.toString()}>
+                {props.value}
+              </a>
+            </Link>
+          );
+        },
         sortType: 'number',
       },
       {
@@ -121,7 +139,18 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         accessor: 'name',
         minWidth: 250,
         Cell: (props) => {
-          return <DefaultCell {...props} align="left" />;
+          return (
+            <Link
+              href={{
+                pathname: '/project/[id]',
+                query: { id: props.row.original.id },
+              }}
+            >
+              <a className={`truncate`} title={props.value}>
+                {props.value}
+              </a>
+            </Link>
+          );
         },
         sortType: 'string',
       },
@@ -229,9 +258,6 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         ...project,
         // make sure teamName always has a value
         teamName: project.teamName || emptyValue,
-        // handle case if dates are strings due to being serialized by server
-        releaseDate: new Date(project.releaseDate),
-        updateDate: new Date(project.updateDate),
       })),
     [props.projects, i18n.language],
   );
