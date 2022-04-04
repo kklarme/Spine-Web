@@ -1,18 +1,23 @@
 import { formatDownloadSize, Project } from 'spine-api';
-import { FC, useCallback, useMemo } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { capitalizeWord } from '../utilities';
 import {
   Column,
+  FilterTypes,
+  Row,
   SortByFn,
   SortingRule,
+  useAsyncDebounce,
   useFlexLayout,
+  useGlobalFilter,
   useResizeColumns,
   useSortBy,
   useTable,
 } from 'react-table';
 import { FixedSizeList } from 'react-window';
 import LanguagesView from './LanguagesView';
+import { matchSorter } from 'match-sorter';
 
 export interface ProjectTableProps {
   projects: Project[];
@@ -30,6 +35,49 @@ function detectScrollbarWidth(): number {
   return scrollbarWidth;
 }
 
+export interface GlobalFilterProps {
+  preGlobalFilteredRows: Row<Project>[];
+  globalFilter: string;
+  setGlobalFilter: (filter: string) => void;
+}
+
+const GlobalFilter: FC<GlobalFilterProps> = ({
+  preGlobalFilteredRows,
+  globalFilter,
+  setGlobalFilter,
+}) => {
+  const count = preGlobalFilteredRows.length;
+  const [value, setValue] = useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 200);
+
+  return (
+    <span>
+      Search:{' '}
+      <input
+        value={value || ''}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange(e.target.value);
+        }}
+        placeholder={`${count} records...`}
+        style={{
+          fontSize: '1.1rem',
+          border: '0',
+        }}
+      />
+    </span>
+  );
+};
+
+function fuzzyTextFilterFn(rows: Row<Project>[], ids: string[], filterValue: string) {
+  // { keys: [row => row.values[id]] }
+  return matchSorter(rows, filterValue);
+}
+
+fuzzyTextFilterFn.autoRemove = (val: unknown) => !val;
+
 const ProjectTable: FC<ProjectTableProps> = (props) => {
   const { t, i18n } = useTranslation();
 
@@ -41,6 +89,13 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   const emptyValue = useMemo(() => '-', []);
 
   const scrollBarSize = useMemo(() => detectScrollbarWidth(), []);
+
+  const filterTypes = useMemo<FilterTypes<Project>>(
+    () => ({
+      fuzzyText: fuzzyTextFilterFn,
+    }),
+    [],
+  );
 
   // provide a default cell component that automatically truncates the value and provides additional props like align
   const DefaultCell = useMemo(
@@ -200,7 +255,16 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     ];
   }, []);
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+  } = useTable(
     {
       columns,
       data,
@@ -209,15 +273,17 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         maxWidth: 600,
         Cell: DefaultCell,
       },
+      filterTypes,
+
       initialState: {
         sortBy: initialSortBy,
       },
     },
     useResizeColumns,
     useFlexLayout,
+    useGlobalFilter,
     useSortBy,
   );
-
   const RenderRow = useCallback(
     ({ index, style }) => {
       const row = rows[index];
@@ -243,10 +309,15 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   );
 
   return (
-    <div className="block max-w-full">
-      <div className="block max-w-full overflow-x-scroll overflow-y-hidden border border-black">
+    <div className="max-w-full">
+      <div className="max-w-full overflow-x-scroll overflow-y-hidden border border-black">
         <div {...getTableProps()} className="project-table table">
           <div className="thead">
+            <GlobalFilter
+              preGlobalFilteredRows={preGlobalFilteredRows}
+              globalFilter={state.globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
             {headerGroups.map((headerGroup) => (
               <div {...headerGroup.getHeaderGroupProps()} className="tr">
                 {headerGroup.headers.map((column, index) => (
@@ -280,6 +351,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
               itemCount={rows.length}
               itemSize={32}
               width={'100%'}
+              style={{ overflowY: 'scroll' }}
             >
               {RenderRow}
             </FixedSizeList>
