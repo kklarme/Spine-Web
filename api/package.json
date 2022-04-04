@@ -27,6 +27,6 @@
     "rimraf": "^3.0.2",
     "typescript": "^4.6.2"
   },
-  "author": "m-ripper",
+  "author": "kklarme",
   "prettier": "../.prettierrc.js"
 }
