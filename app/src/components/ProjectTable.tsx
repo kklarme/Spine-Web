@@ -324,7 +324,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     [prepareRow, rows],
   );
 
-  const [maxHeight, setMaxHeight] = useState(window.innerHeight - 500);
+  const [maxHeight, setMaxHeight] = useState(window.innerHeight - 200);
 
   useLayoutEffect(() => {
     const updateMaxHeight = () => {
