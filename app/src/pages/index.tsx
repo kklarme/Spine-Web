@@ -15,7 +15,7 @@ const DynamicProjectListWithoutSSR = dynamic(() => import('../components/Project
 
 const Projects: NextPage<ProjectsPageProps> = (props) => {
   return (
-    <div>
+    <div className="flex flex-col min-h-0 flex-grow">
       <Head>
         <title>Spine Web</title>
         <meta name="description" content="Unofficial web client for Spine" />
@@ -31,7 +31,7 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
         <meta name="theme-color" content="#871313" />
       </Head>
 
-      <main className="px-6 py-3">
+      <main className="px-6 py-3 h-full">
         <DynamicProjectListWithoutSSR projects={props.projects} />
       </main>
     </div>

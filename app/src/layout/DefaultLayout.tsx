@@ -14,7 +14,7 @@ const DefaultLayout: FC = (props) => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col max-h-screen h-screen">
       <div className="h-14 flex items-center flex-shrink-0 justify-between px-4 bg-gray-500 text-white">
         <a
           href="https://clockwork-origins.com/de/spine/"

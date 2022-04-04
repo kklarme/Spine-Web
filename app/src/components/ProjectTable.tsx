@@ -1,5 +1,5 @@
 import { formatDownloadSize, Project } from 'spine-api';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { capitalizeWord, detectScrollbarWidth } from '../utilities';
 import {
@@ -68,6 +68,8 @@ fuzzyTextFilterFn.autoRemove = (val: unknown) => !val;
 
 const ProjectTable: FC<ProjectTableProps> = (props) => {
   const { t, i18n } = useTranslation();
+  const theadRef = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   const tc = (...args: Parameters<TFunction>) => {
     const tResult = t(...args);
@@ -296,14 +298,29 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     [prepareRow, rows],
   );
 
-  // this is just a hardcoded value for now. TODO: find a way to programmatically get maximum height
-  const maxHeight = typeof window === 'undefined' ? 500 : window.innerHeight - 200;
+  const [maxHeight, setMaxHeight] = useState(window.innerHeight - 500);
+
+  useLayoutEffect(() => {
+    const updateMaxHeight = () => {
+      if (tableRef.current && theadRef.current) {
+        setMaxHeight(tableRef.current.clientHeight - theadRef.current.clientHeight);
+      }
+    };
+
+    updateMaxHeight();
+
+    window.addEventListener('resize', updateMaxHeight);
+    return () => {
+      window.removeEventListener('resize', updateMaxHeight);
+    };
+  }, []);
   const itemSize = 32;
+  const height = Math.min(maxHeight, itemSize * rows.length);
 
   return (
-    <div className="overflow-x-scroll border border-black">
-      <div {...getTableProps()} className="project-table table">
-        <div className="thead">
+    <div className="h-full overflow-x-scroll overflow-y-hidden border border-black">
+      <div {...getTableProps()} ref={tableRef} className="project-table h-full table">
+        <div className="thead" ref={theadRef}>
           <div className="border-b border-black">
             <GlobalFilter
               preGlobalFilteredRows={preGlobalFilteredRows}
@@ -340,7 +357,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
         <div {...getTableBodyProps()} className="tbody">
           <FixedSizeList
-            height={Math.min(maxHeight, itemSize * rows.length)}
+            height={height}
             itemCount={rows.length}
             itemSize={itemSize}
             width={'100%'}
