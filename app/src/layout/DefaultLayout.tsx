@@ -3,7 +3,7 @@ import Link from 'next/link';
 import LanguageSelect from '../components/LanguageSelect';
 import { Language } from 'spine-api';
 import { useRouter } from 'next/router';
-import Head from "next/head";
+import Head from 'next/head';
 
 const DefaultLayout: FC = (props) => {
   const router = useRouter();
