@@ -1,21 +1,40 @@
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
-import { ProjectInfo, SpineApi } from 'spine-api';
 import { ServerProjectInfoProp, ServerPropConverter } from '../../ServerPropConverter';
-import api from '../../api';
+import { useMemo } from 'react';
+import testProjectInfo from '../../testData/projectInfo.json';
 
 export interface ProjectPageProps {
+  projectId: number;
   projectInfo: ServerProjectInfoProp;
 }
 
 const ProjectPage: NextPage<ProjectPageProps> = (props) => {
+  const projectInfo = useMemo(
+    () => ServerPropConverter.toProjectInfo(props.projectInfo),
+    [props.projectInfo],
+  );
+
   return (
     <div className="flex flex-col min-h-0 flex-grow">
       <Head>
-        <title>Spine Web - {props.projectInfo.name}</title>
+        <title>Spine Web - {projectInfo.name}</title>
       </Head>
 
-      <main className="px-6 py-3 h-full">{JSON.stringify(props.projectInfo, undefined, 2)}</main>
+      <main className="px-6 py-3 h-full">
+        <div className="flex overflow-auto">
+          {props.projectInfo.screenshots.map((screenshot, index) => (
+            <img className="flex-1" key={index} src={`/api/screenshots/${props.projectId}/${screenshot.file}`} />
+          ))}
+        </div>
+
+        <div>
+          {projectInfo.screenshots.map((screenshot) => (
+            <div key={screenshot.file}></div>
+          ))}
+        </div>
+        <div>{projectInfo.name}</div>
+      </main>
     </div>
   );
 };
@@ -23,10 +42,13 @@ const ProjectPage: NextPage<ProjectPageProps> = (props) => {
 export const getServerSideProps: GetServerSideProps<ProjectPageProps, { id: string }> = async (
   context,
 ) => {
-  const projectInfo = await api.getProjectInfo(context.params?.id || '');
-  const projectInfoProp = ServerPropConverter.toServerProp(projectInfo);
+  const projectId = context.params?.id || '';
+  // const projectInfo = await api.getProjectInfo(projectId);
+  // const projectInfoProp = ServerPropConverter.toServerProp(projectInfo);
+  const projectInfoProp = testProjectInfo as ServerProjectInfoProp;
   return {
     props: {
+      projectId: +projectId,
       projectInfo: projectInfoProp,
     },
   };
