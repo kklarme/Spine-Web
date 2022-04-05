@@ -10,7 +10,7 @@
     }
 
     & .th:nth-last-child(2) {
-      @apply border-r-0;
+      /*@apply border-r-0;*/
     }
   }
 
@@ -37,5 +37,9 @@
         @apply bg-accent;
       }
     }
+  }
+
+  & .virtual-list > div {
+    @apply border-r border-black;
   }
 }

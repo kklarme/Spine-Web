@@ -331,7 +331,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     const updateMaxHeight = () => {
       if (tableRef.current && theadRef.current) {
         setMaxHeight(
-          tableRef.current.clientHeight - theadRef.current.clientHeight - scrollBarHeight,
+          tableRef.current.offsetHeight - theadRef.current.offsetHeight - scrollBarHeight - 3,
         );
       }
     };
@@ -349,7 +349,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   return (
     <div ref={tableRef} className="h-full">
       <div className="overflow-x-scroll overflow-y-hidden border border-black">
-        <div {...getTableProps()} className="project-table table">
+        <div {...getTableProps()} className="project-table table border-b border-black">
           <div className="thead" ref={theadRef}>
             <div className="border-b border-black">
               <GlobalFilter
@@ -391,6 +391,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
               itemCount={rows.length}
               itemSize={itemSize}
               width={'100%'}
+              className="virtual-list"
               style={{ overflowY: 'scroll' }}
             >
               {RenderRow}
