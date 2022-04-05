@@ -1,7 +1,7 @@
 import { formatDownloadSize, Project } from 'spine-api';
 import { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { capitalizeWord, detectScrollbarWidth } from '../utilities';
+import { capitalizeWord, detectScrollbarHeight, detectScrollbarWidth } from '../utilities';
 import {
   Column,
   FilterTypes,
@@ -79,7 +79,8 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
   const emptyValue = useMemo(() => '-', []);
 
-  const scrollBarSize = useMemo(() => detectScrollbarWidth(), []);
+  const scrollBarWidth = useMemo(() => detectScrollbarWidth(), []);
+  const scrollBarHeight = useMemo(() => detectScrollbarHeight(), []);
 
   const filterTypes = useMemo<FilterTypes<Project>>(
     () => ({
@@ -329,7 +330,9 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   useLayoutEffect(() => {
     const updateMaxHeight = () => {
       if (tableRef.current && theadRef.current) {
-        setMaxHeight(tableRef.current.clientHeight - theadRef.current.clientHeight);
+        setMaxHeight(
+          tableRef.current.clientHeight - theadRef.current.clientHeight - scrollBarHeight,
+        );
       }
     };
 
@@ -344,53 +347,55 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   const height = Math.min(maxHeight, itemSize * rows.length);
 
   return (
-    <div className="h-full overflow-x-scroll overflow-y-hidden border border-black">
-      <div {...getTableProps()} ref={tableRef} className="project-table h-full table">
-        <div className="thead" ref={theadRef}>
-          <div className="border-b border-black">
-            <GlobalFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              globalFilter={state.globalFilter}
-              setGlobalFilter={setGlobalFilter}
-            />
-          </div>
-          {headerGroups.map((headerGroup) => (
-            <div {...headerGroup.getHeaderGroupProps()} className="tr">
-              {headerGroup.headers.map((column, index) => (
-                <div {...column.getHeaderProps()} className="th">
-                  <div {...column.getSortByToggleProps()} className="w-full">
-                    {column.render('Header')}
-                    <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
-                  </div>
-                  {!(column as any).disableResizing && (
-                    <div
-                      {...column.getResizerProps()}
-                      className={`resizer ${column.isResizing ? 'isResizing' : ''}`}
-                    />
-                  )}
-                </div>
-              ))}
-              <div
-                className="border-b border-black"
-                style={{
-                  width: scrollBarSize,
-                  content: ' ',
-                }}
+    <div ref={tableRef} className="h-full">
+      <div className="overflow-x-scroll overflow-y-hidden border border-black">
+        <div {...getTableProps()} className="project-table table">
+          <div className="thead" ref={theadRef}>
+            <div className="border-b border-black">
+              <GlobalFilter
+                preGlobalFilteredRows={preGlobalFilteredRows}
+                globalFilter={state.globalFilter}
+                setGlobalFilter={setGlobalFilter}
               />
             </div>
-          ))}
-        </div>
+            {headerGroups.map((headerGroup) => (
+              <div {...headerGroup.getHeaderGroupProps()} className="tr">
+                {headerGroup.headers.map((column, index) => (
+                  <div {...column.getHeaderProps()} className="th">
+                    <div {...column.getSortByToggleProps()} className="w-full">
+                      {column.render('Header')}
+                      <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+                    </div>
+                    {!(column as any).disableResizing && (
+                      <div
+                        {...column.getResizerProps()}
+                        className={`resizer ${column.isResizing ? 'isResizing' : ''}`}
+                      />
+                    )}
+                  </div>
+                ))}
+                <div
+                  className="border-b border-black"
+                  style={{
+                    width: scrollBarWidth,
+                    content: ' ',
+                  }}
+                />
+              </div>
+            ))}
+          </div>
 
-        <div {...getTableBodyProps()} className="tbody">
-          <FixedSizeList
-            height={height}
-            itemCount={rows.length}
-            itemSize={itemSize}
-            width={'100%'}
-            style={{ overflowY: 'scroll' }}
-          >
-            {RenderRow}
-          </FixedSizeList>
+          <div {...getTableBodyProps()} className="tbody">
+            <FixedSizeList
+              height={height}
+              itemCount={rows.length}
+              itemSize={itemSize}
+              width={'100%'}
+              style={{ overflowY: 'scroll' }}
+            >
+              {RenderRow}
+            </FixedSizeList>
+          </div>
         </div>
       </div>
     </div>

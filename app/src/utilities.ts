@@ -22,3 +22,15 @@ export function detectScrollbarWidth(): number {
   document.body.removeChild(scrollDiv);
   return scrollbarWidth;
 }
+
+export function detectScrollbarHeight(): number {
+  const scrollDiv = document.createElement('div');
+  scrollDiv.setAttribute(
+      'style',
+      'width: 100px; height: 100px; overflow: scroll; position:absolute; right:-9999px;',
+  );
+  document.body.appendChild(scrollDiv);
+  const scrollbarHeight = scrollDiv.offsetHeight - scrollDiv.clientHeight;
+  document.body.removeChild(scrollDiv);
+  return scrollbarHeight;
+}
