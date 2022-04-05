@@ -1,9 +1,8 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
-import testData from '../testData.json';
+import testProjects from '../testData/projects.json';
 import dynamic from 'next/dynamic';
 import { ServerProjectProp, ServerPropConverter } from '../ServerPropConverter';
-import api from '../api';
 
 export interface ProjectsPageProps {
   projects: ServerProjectProp[];
@@ -32,7 +31,7 @@ const ProjectsPage: NextPage<ProjectsPageProps> = (props) => {
 export const getServerSideProps: GetServerSideProps<ProjectsPageProps> = async (context) => {
   // const projects = await api.getProjects();
   // const projectProps = projects.map(ServerPropConverter.toServerProp);
-  const projectProps = testData as ServerProjectProp[];
+  const projectProps = testProjects as ServerProjectProp[];
   return {
     props: {
       projects: projectProps,
