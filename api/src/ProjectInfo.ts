@@ -1,5 +1,5 @@
 import { GameType, RawProjectInfo } from './types';
-import { parseSpineDate } from './utilities';
+import { parseSpineDate, unescapeHtml } from './utilities';
 
 export interface Screenshot {
   file: string;
@@ -21,7 +21,7 @@ export class ProjectInfo {
   installAllowed: boolean;
 
   constructor(projectInfo: RawProjectInfo) {
-    this.name = projectInfo.Name;
+    this.name = unescapeHtml(projectInfo.Name);
     this.screenshots = (projectInfo.Screenshots || []).map((screenshot) => ({
       file: screenshot.File,
       hash: screenshot.Hash,
