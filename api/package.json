@@ -14,11 +14,13 @@
     "axios": "^0.26.1",
     "dayjs": "^1.11.0",
     "lodash.mergewith": "^4.6.2",
+    "pako": "^2.0.4",
     "ts-toolbelt": "^9.6.0",
     "type-fest": "^2.12.1"
   },
   "devDependencies": {
     "@types/lodash.mergewith": "^4.6.6",
+    "@types/pako": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "eslint": "^8.11.0",
