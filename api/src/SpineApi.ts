@@ -78,7 +78,7 @@ export class SpineApi {
     const response = await axios.get<Uint8Array>(url, {
       responseType: 'arraybuffer',
     });
-    // zlib seems to add two bytes to the start of the buffer that can't be handled by nodejs/pako\
+    // zlib seems to add two bytes to the start of the buffer that can't be handled by nodejs/pako
     // these two bytes are probably a header but none of the nodejs/pako methods seem to be able to handle that
     // therefore these two bytes are simply omitted
     // copy everything but the first two bytes into buffer
