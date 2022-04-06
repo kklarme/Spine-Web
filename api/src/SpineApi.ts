@@ -3,32 +3,42 @@ import axios from 'axios';
 import { Project } from './Project';
 import { ProjectInfo } from './ProjectInfo';
 import { inflateRaw } from 'pako';
+import { merge } from './utilities';
+import { Language, LANGUAGE_NAME_MAP } from './SpineLanguage';
 
 export interface SpineApiConfig {
   serverUrl: string;
   credentials: Credentials;
-  language?: string;
+  language: Language;
 }
 
 export class SpineApi {
-  // for whatever reason a lot of teamName properties are missing if another language property than 'Deutsch' is passed
-  // therefore the default language value is 'Deutsch'
-  static defaultLanguage = 'Deutsch';
+  static defaultConfig: SpineApiConfig = {
+    serverUrl: 'https://clockwork-origins.com:19181',
+    credentials: {
+      username: '',
+      password: '',
+    },
+    // for whatever reason a lot of teamName properties are missing if another language property than 'Deutsch' is passed
+    // therefore the default language value is 'Deutsch'
+    language: Language.German,
+  };
 
-  static async requestAllProjects({
-    serverUrl,
-    credentials,
-    language = this.defaultLanguage,
-  }: SpineApiConfig): Promise<RequestAllProjectsResponse> {
+  static async requestAllProjects(
+    config?: Partial<SpineApiConfig>,
+  ): Promise<RequestAllProjectsResponse> {
+    const { serverUrl, credentials, language } = config
+      ? merge(this.defaultConfig, config)
+      : this.defaultConfig;
     const response = await axios.post(`${serverUrl}/requestAllProjects`, {
       Username: credentials.username,
       Password: credentials.password,
-      Language: language,
+      Language: LANGUAGE_NAME_MAP[language],
     });
     return response.data;
   }
 
-  static async getProjects(config: SpineApiConfig): Promise<Project[]> {
+  static async getProjects(config?: Partial<SpineApiConfig>): Promise<Project[]> {
     const response = await this.requestAllProjects(config);
     return response.Projects.map(
       (project) =>
@@ -41,18 +51,24 @@ export class SpineApi {
 
   static async requestProjectInfo(
     id: string,
-    { serverUrl, credentials, language = this.defaultLanguage }: SpineApiConfig,
+    config?: Partial<SpineApiConfig>,
   ): Promise<RawProjectInfo> {
+    const { serverUrl, credentials, language } = config
+      ? merge(this.defaultConfig, config)
+      : this.defaultConfig;
     const response = await axios.post(`${serverUrl}/requestInfoPage`, {
       ProjectID: id,
       Username: credentials.username,
       Password: credentials.password,
-      Language: language,
+      Language: LANGUAGE_NAME_MAP[language],
     });
     return response.data;
   }
 
-  static async getProjectInfo(id: string, config: SpineApiConfig): Promise<ProjectInfo> {
+  static async getProjectInfo(
+    id: string,
+    config?: Partial<SpineApiConfig>,
+  ): Promise<ProjectInfo> {
     const projectInfo = await this.requestProjectInfo(id, config);
     return new ProjectInfo(projectInfo);
   }
@@ -72,10 +88,11 @@ export class SpineApi {
     return inflateRaw(buffer);
   }
 
-  constructor(public config: SpineApiConfig) {}
+  config: SpineApiConfig;
 
-  get language(): string {
-    return this.config.language || SpineApi.defaultLanguage;
+  constructor(config?: Partial<SpineApiConfig>) {
+    const defaultConfig = { ...SpineApi.defaultConfig };
+    this.config = config ? merge(defaultConfig, config) : defaultConfig;
   }
 
   async requestAllProjects(): Promise<RequestAllProjectsResponse> {
