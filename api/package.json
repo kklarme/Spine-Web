@@ -1,7 +1,10 @@
 {
   "name": "spine-api",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
