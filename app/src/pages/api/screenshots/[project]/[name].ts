@@ -1,5 +1,6 @@
 import { SpineApi } from 'spine-api';
 import { NextApiHandler } from 'next';
+import sharp from 'sharp';
 
 const handler: NextApiHandler = async function handler(req, res) {
   const { project, name } = req.query;
@@ -7,7 +8,8 @@ const handler: NextApiHandler = async function handler(req, res) {
   const imageUrl = `https://clockwork-origins.de/Gothic/downloads/mods/${project}/screens/${name}`;
   const fileArrayBuffer = await SpineApi.loadImage(imageUrl);
   const fileBuffer = new Buffer(fileArrayBuffer);
-  res.setHeader('Content-Type', `image/png`).send(fileBuffer);
+  const compressedFileBuffer = await sharp(fileBuffer).webp({ quality: 100 }).toBuffer();
+  res.setHeader('Content-Type', `image/webp`).send(compressedFileBuffer);
 };
 
 export default handler;
