@@ -57,7 +57,7 @@ export class SpineApi {
     return new ProjectInfo(projectInfo);
   }
 
-  static async downloadImage(url: string): Promise<Uint8Array> {
+  static async loadImage(url: string): Promise<Uint8Array> {
     // the response is a buffer that contains raw deflated data
     const response = await axios.get<Buffer>(url, {
       responseType: 'arraybuffer',
@@ -94,7 +94,7 @@ export class SpineApi {
     return SpineApi.getProjectInfo(id, this.config);
   }
 
-  async downloadImage(url: string): Promise<Uint8Array> {
-    return SpineApi.downloadImage(url);
+  async loadImage(url: string): Promise<Uint8Array> {
+    return SpineApi.loadImage(url);
   }
 }
