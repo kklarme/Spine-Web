@@ -12,7 +12,8 @@ module.exports = {
         primary: colors.amber,
         accent: {
           DEFAULT: '#871313',
-          dark: '#6b0f0f'
+          light: '#9f1616',
+          dark: '#791010'
         },
       },
     },

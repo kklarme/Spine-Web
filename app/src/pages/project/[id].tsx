@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { ServerProjectInfoProp, ServerPropConverter } from '../../ServerPropConverter';
 import { useMemo } from 'react';
-import testProjectInfo from '../../testData/projectInfo.json';
+import { Language, SpineApi } from 'spine-api';
 
 export interface ProjectPageProps {
   projectId: number;
@@ -24,7 +24,11 @@ const ProjectPage: NextPage<ProjectPageProps> = (props) => {
       <main className="px-6 py-3 h-full">
         <div className="flex overflow-auto">
           {props.projectInfo.screenshots.map((screenshot, index) => (
-            <img className="flex-1" key={index} src={`/api/screenshots/${props.projectId}/${screenshot.file}`} />
+            <img
+              className="flex-1"
+              key={index}
+              src={`/api/screenshots/${props.projectId}/${screenshot.file}`}
+            />
           ))}
         </div>
 
@@ -43,9 +47,10 @@ export const getServerSideProps: GetServerSideProps<ProjectPageProps, { id: stri
   context,
 ) => {
   const projectId = context.params?.id || '';
-  // const projectInfo = await api.getProjectInfo(projectId);
-  // const projectInfoProp = ServerPropConverter.toServerProp(projectInfo);
-  const projectInfoProp = testProjectInfo as ServerProjectInfoProp;
+  const projectInfo = await SpineApi.getProjectInfo(projectId, {
+    language: context.locale as Language,
+  });
+  const projectInfoProp = ServerPropConverter.toServerProp(projectInfo);
   return {
     props: {
       projectId: +projectId,

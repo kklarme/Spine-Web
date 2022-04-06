@@ -146,7 +146,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
                 query: { id: props.row.original.id },
               }}
             >
-              <a className={`truncate text-black font-medium`} title={props.value}>
+              <a className={`truncate font-medium`} title={props.value}>
                 {props.value}
               </a>
             </Link>
@@ -361,7 +361,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         />
       </div>
       <div ref={tableRef} className="flex-grow">
-        <div className="overflow-x-scroll overflow-y-hidden scrollbar">
+        <div className="overflow-x-scroll overflow-y-hidden">
           <div {...getTableProps()} className="project-table table">
             <ProjectTableHeader headerGroups={headerGroups} ref={theadRef} />
 
@@ -371,7 +371,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
                 itemCount={rows.length}
                 itemSize={itemSize}
                 width={'100%'}
-                className="virtual-list scrollbar"
+                className="virtual-list"
                 style={{ overflowY: 'scroll' }}
               >
                 {RenderRow}
