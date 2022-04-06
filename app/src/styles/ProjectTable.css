@@ -3,6 +3,7 @@
   border-spacing: 0;
 
   & .tr {
+    /*@apply px-4;*/
     &:last-child {
       & .td {
         @apply border-b-0;
@@ -10,28 +11,33 @@
     }
 
     & .th:nth-last-child(2) {
-      /*@apply border-r-0;*/
+      @apply border-r-0;
     }
   }
 
+  & .tbody .tr {
+    @apply border-b;
+  }
+
   & .th {
-    @apply p-1;
+    @apply border-r;
   }
 
   & .td {
-    @apply py-0.5 px-2;
+    @apply border-r px-8;
   }
 
   & .th,
   & .td {
-    @apply flex items-center text-left justify-start m-0 border-b border-r border-black relative;
+    /*border-b border-r*/
+    @apply flex items-center text-left justify-start m-0 relative;
 
     &:last-child {
       @apply border-r-0;
     }
 
     & .resizer {
-      @apply h-full w-1 absolute top-0 -right-0.5 bg-black z-10 select-none touch-none;
+      @apply h-full w-px absolute top-0 -right-px bg-gray-200 z-10 select-none touch-none;
 
       &.isResizing {
         @apply bg-accent;
@@ -40,6 +46,6 @@
   }
 
   & .virtual-list > div {
-    @apply border-r border-black;
+    /*@apply border-r border-black;*/
   }
 }

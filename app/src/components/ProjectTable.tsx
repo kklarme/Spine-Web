@@ -1,7 +1,7 @@
 import { formatDownloadSize, Project } from 'spine-api';
 import { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { capitalizeWord, detectScrollbarHeight, detectScrollbarWidth } from '../utilities';
+import { capitalizeWord, capitalizeWords, detectScrollbarHeight } from '../utilities';
 import {
   Column,
   FilterTypes,
@@ -19,6 +19,8 @@ import { FixedSizeList } from 'react-window';
 import LanguagesView from './LanguagesView';
 import { matchSorter } from 'match-sorter';
 import Link from 'next/link';
+import ProjectTableHeader from './ProjectTableHeader';
+import { SearchIcon } from '@heroicons/react/outline';
 
 export interface ProjectTableProps {
   projects: Project[];
@@ -42,21 +44,18 @@ const GlobalFilter: FC<GlobalFilterProps> = ({
   }, 200);
 
   return (
-    <span>
-      Search:{' '}
+    <div className="inline-flex items-center my-4">
+      <SearchIcon className="w-6 h-6 -ml-0.5" />
       <input
+        className="ml-1"
         value={value || ''}
         onChange={(e) => {
           setValue(e.target.value);
           onChange(e.target.value);
         }}
         placeholder={`${count} records...`}
-        style={{
-          fontSize: '1.1rem',
-          border: '0',
-        }}
       />
-    </span>
+    </div>
   );
 };
 
@@ -79,7 +78,6 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
   const emptyValue = useMemo(() => '-', []);
 
-  const scrollBarWidth = useMemo(() => detectScrollbarWidth(), []);
   const scrollBarHeight = useMemo(() => detectScrollbarHeight(), []);
 
   const filterTypes = useMemo<FilterTypes<Project>>(
@@ -118,7 +116,6 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       {
         Header: tc('project.id'),
         accessor: 'id',
-        width: 44,
         Cell: (props) => {
           return (
             <Link
@@ -133,12 +130,14 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
             </Link>
           );
         },
+        minWidth: 100,
+        width: 100,
+        maxWidth: 140,
         sortType: 'number',
       },
       {
         Header: tc('project.name'),
         accessor: 'name',
-        minWidth: 250,
         Cell: (props) => {
           return (
             <Link
@@ -147,21 +146,26 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
                 query: { id: props.row.original.id },
               }}
             >
-              <a className={`truncate`} title={props.value}>
+              <a className={`truncate text-black font-medium`} title={props.value}>
                 {props.value}
               </a>
             </Link>
           );
         },
+        minWidth: 300,
+        width: 420,
+        maxWidth: 700,
         sortType: 'string',
       },
       {
         Header: tc('project.author'),
         accessor: 'teamName',
-        minWidth: 200,
         Cell: (props) => {
           return <DefaultCell {...props} align="left" />;
         },
+        minWidth: 160,
+        width: 220,
+        maxWidth: 400,
         sortType: 'string',
       },
       {
@@ -196,7 +200,6 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
               : emptyValue;
           return <DefaultCell {...props} value={value} />;
         },
-        width: 144,
         sortType: 'number',
       },
       {
@@ -229,23 +232,23 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Cell: (props) => {
           return <DefaultCell {...props} value={formatDownloadSize(props.value)} />;
         },
-        width: 128,
         sortType: 'number',
       },
       {
-        Header: tc('actions'),
+        Header: ' ',
         Cell: (props: any) => {
           return (
             <button
-              className="hidden md:block"
+              className="hidden md:block text-accent hover:text-accent-dark"
               onClick={() => {
                 window.open(`spine://start/${props.row.original.id}`, '_blank');
               }}
             >
-              {t('start')}
+              {capitalizeWord(t('start'))}
             </button>
           );
         },
+        width: 100,
         disableResizing: true,
         disableSortBy: true,
       },
@@ -286,8 +289,9 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       columns,
       data,
       defaultColumn: {
-        minWidth: 44,
-        maxWidth: 600,
+        maxWidth: 300,
+        width: 200,
+        minWidth: 100,
         Cell: DefaultCell,
       },
       filterTypes,
@@ -301,6 +305,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     useGlobalFilter,
     useSortBy,
   );
+
   const RenderRow = useCallback(
     ({ index, style }) => {
       const row = rows[index];
@@ -343,59 +348,35 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       window.removeEventListener('resize', updateMaxHeight);
     };
   }, []);
-  const itemSize = 32;
+  const itemSize = 40;
   const height = Math.min(maxHeight, itemSize * rows.length);
 
   return (
-    <div ref={tableRef} className="h-full">
-      <div className="overflow-x-scroll overflow-y-hidden border border-black">
-        <div {...getTableProps()} className="project-table table border-b border-black">
-          <div className="thead" ref={theadRef}>
-            <div className="border-b border-black">
-              <GlobalFilter
-                preGlobalFilteredRows={preGlobalFilteredRows}
-                globalFilter={state.globalFilter}
-                setGlobalFilter={setGlobalFilter}
-              />
-            </div>
-            {headerGroups.map((headerGroup) => (
-              <div {...headerGroup.getHeaderGroupProps()} className="tr">
-                {headerGroup.headers.map((column, index) => (
-                  <div {...column.getHeaderProps()} className="th">
-                    <div {...column.getSortByToggleProps()} className="w-full">
-                      {column.render('Header')}
-                      <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
-                    </div>
-                    {!(column as any).disableResizing && (
-                      <div
-                        {...column.getResizerProps()}
-                        className={`resizer ${column.isResizing ? 'isResizing' : ''}`}
-                      />
-                    )}
-                  </div>
-                ))}
-                <div
-                  className="border-b border-black"
-                  style={{
-                    width: scrollBarWidth,
-                    content: ' ',
-                  }}
-                />
-              </div>
-            ))}
-          </div>
+    <div className="flex flex-col min-h-0 h-full flex-grow">
+      <div className="px-8">
+        <GlobalFilter
+          preGlobalFilteredRows={preGlobalFilteredRows}
+          globalFilter={state.globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
+      </div>
+      <div ref={tableRef} className="flex-grow">
+        <div className="overflow-x-scroll overflow-y-hidden scrollbar">
+          <div {...getTableProps()} className="project-table table">
+            <ProjectTableHeader headerGroups={headerGroups} ref={theadRef} />
 
-          <div {...getTableBodyProps()} className="tbody">
-            <FixedSizeList
-              height={height}
-              itemCount={rows.length}
-              itemSize={itemSize}
-              width={'100%'}
-              className="virtual-list"
-              style={{ overflowY: 'scroll' }}
-            >
-              {RenderRow}
-            </FixedSizeList>
+            <div {...getTableBodyProps()} className="tbody">
+              <FixedSizeList
+                height={height}
+                itemCount={rows.length}
+                itemSize={itemSize}
+                width={'100%'}
+                className="virtual-list scrollbar"
+                style={{ overflowY: 'scroll' }}
+              >
+                {RenderRow}
+              </FixedSizeList>
+            </div>
           </div>
         </div>
       </div>

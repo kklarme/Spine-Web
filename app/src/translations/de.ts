@@ -11,7 +11,7 @@ export default {
     author: 'Author',
     type: 'Modifikationsart',
     game: 'Spiel',
-    developerPlaytime: 'Entwicklerspielzeit',
+    developerPlaytime: 'Entw. Spielzeit',
     releaseDate: 'Veröffentlicht am',
     updateDate: 'Aktualisiert am',
     languages: 'Sprachen',

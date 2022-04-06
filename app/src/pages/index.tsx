@@ -21,7 +21,7 @@ const ProjectsPage: NextPage<ProjectsPageProps> = (props) => {
         <title>Spine Web - Projects</title>
       </Head>
 
-      <main className="px-6 py-3 h-full">
+      <main className="h-full">
         <DynamicProjectListWithoutSSR projects={projects} />
       </main>
     </div>

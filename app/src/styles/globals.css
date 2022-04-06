@@ -1,4 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import 'tailwindcss/base.css';
 @import 'tailwindcss/components.css';
 @import 'ProjectTable.css';
 @import 'tailwindcss/utilities.css';
+
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #871313 #ffffff;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #871313;
+    border-radius: 10px;
+  }
+}
