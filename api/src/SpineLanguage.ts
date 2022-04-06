@@ -21,6 +21,13 @@ export const LANGUAGE_BIT_MAP: Record<Language, SpineLanguageBit> = {
   [Language.Russian]: SpineLanguageBit.Russian,
 };
 
+export const LANGUAGE_NAME_MAP: Record<Language, string> = {
+  [Language.German]: 'Deutsch',
+  [Language.English]: 'English',
+  [Language.Polish]: 'Polish',
+  [Language.Russian]: 'Russian',
+};
+
 export type LanguageMap = Record<string, Language[]>;
 
 export class SpineLanguage {
