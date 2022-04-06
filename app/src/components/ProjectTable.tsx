@@ -89,16 +89,17 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
   // provide a default cell component that automatically truncates the value and provides additional props like align
   const DefaultCell = useMemo(
-    () => (props: any) => {
-      return (
-        <p
-          className={`truncate ${props.align ? `text-${props.align}` : ''}`}
-          title={props.value.toString()}
-        >
-          {props.value}
-        </p>
-      );
-    },
+    () =>
+      function DefaultCell(props: any) {
+        return (
+          <p
+            className={`truncate ${props.align ? `text-${props.align}` : ''}`}
+            title={props.value.toString()}
+          >
+            {props.value}
+          </p>
+        );
+      },
     [],
   );
 
@@ -319,6 +320,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         >
           {row.cells.map((cell) => {
             return (
+              // eslint-disable-next-line react/jsx-key
               <div {...cell.getCellProps()} className="td">
                 {cell.render('Cell')}
               </div>

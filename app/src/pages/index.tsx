@@ -1,9 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
-import testProjects from '../testData/projects.json';
 import dynamic from 'next/dynamic';
 import { ServerProjectProp, ServerPropConverter } from '../ServerPropConverter';
-import api from '../api';
 import { Language, SpineApi } from 'spine-api';
 
 export interface ProjectsPageProps {
@@ -31,11 +29,10 @@ const ProjectsPage: NextPage<ProjectsPageProps> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps<ProjectsPageProps> = async (context) => {
-  // const projects = await SpineApi.getProjects({
-  //   language: context.locale as Language,
-  // });
-  // const projectProps = projects.map(ServerPropConverter.toServerProp);
-  const projectProps = testProjects as ServerProjectProp[];
+  const projects = await SpineApi.getProjects({
+    language: context.locale as Language,
+  });
+  const projectProps = projects.map(ServerPropConverter.toServerProp);
   return {
     props: {
       projects: projectProps,

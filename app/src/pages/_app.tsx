@@ -17,7 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { locale } = useRouter();
 
   useEffect(() => {
-    i18n.changeLanguage(locale).then(() => {});
+    i18n.changeLanguage(locale).then(() => {
+      // make sure to await the language change
+    });
   });
 
   return (
