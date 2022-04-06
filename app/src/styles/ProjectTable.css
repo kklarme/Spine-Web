@@ -3,7 +3,6 @@
   border-spacing: 0;
 
   & .tr {
-    /*@apply px-4;*/
     &:last-child {
       & .td {
         @apply border-b-0;

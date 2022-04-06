@@ -12,7 +12,7 @@ module.exports = {
         primary: colors.amber,
         accent: {
           DEFAULT: '#871313',
-          dark: '#420808'
+          dark: '#6b0f0f'
         },
       },
     },

@@ -9,8 +9,8 @@
   scrollbar-color: #871313 #ffffff;
 
   &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
 
   &::-webkit-scrollbar-track {
@@ -18,7 +18,9 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #871313;
-    border-radius: 10px;
+    @apply bg-accent rounded-md;
+    &:hover {
+      @apply bg-accent-dark;
+    }
   }
 }
