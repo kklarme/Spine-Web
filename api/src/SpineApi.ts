@@ -75,15 +75,14 @@ export class SpineApi {
 
   static async loadImage(url: string): Promise<Uint8Array> {
     // the response is a buffer that contains raw deflated data
-    const response = await axios.get<Buffer>(url, {
+    const response = await axios.get<Uint8Array>(url, {
       responseType: 'arraybuffer',
     });
     // zlib seems to add two bytes to the start of the buffer that can't be handled by nodejs/pako\
     // these two bytes are probably a header but none of the nodejs/pako methods seem to be able to handle that
     // therefore these two bytes are simply omitted
-    const buffer = Buffer.alloc(response.data.length - 2);
     // copy everything but the first two bytes into buffer
-    response.data.copy(buffer, 0, 2);
+    const buffer = new Uint8Array(response.data.buffer,2,response.data.byteLength - 2);
     // lastly we want to decompress the buffer
     return inflateRaw(buffer);
   }
