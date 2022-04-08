@@ -7,6 +7,14 @@ const nextConfig = {
     localeDetection: true,
     locales: Object.values(Language),
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/spine/:path*',
+        destination: 'https://clockwork-origins.com:19181/:path*',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
