@@ -1,7 +1,7 @@
 import { formatDownloadSize, Project } from 'spine-api';
 import { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { capitalizeWord, capitalizeWords, detectScrollbarHeight } from '../utilities';
+import { capitalizeWord, detectScrollbarHeight } from '../utilities';
 import {
   Column,
   FilterTypes,
@@ -69,7 +69,8 @@ fuzzyTextFilterFn.autoRemove = (val: unknown) => !val;
 const ProjectTable: FC<ProjectTableProps> = (props) => {
   const { t, i18n } = useTranslation();
   const theadRef = useRef<HTMLDivElement>(null);
-  const tableRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const searchbarRef = useRef<HTMLDivElement>(null);
 
   const tc = (...args: Parameters<TFunction>) => {
     const tResult = t(...args);
@@ -334,15 +335,21 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
   const [maxHeight, setMaxHeight] = useState(window.innerHeight - 200);
 
-  useLayoutEffect(() => {
-    const updateMaxHeight = () => {
-      if (tableRef.current && theadRef.current) {
+  const updateMaxHeight = useMemo(
+    () => () => {
+      if (theadRef.current && containerRef.current && searchbarRef.current) {
         setMaxHeight(
-          tableRef.current.offsetHeight - theadRef.current.offsetHeight - scrollBarHeight - 3,
+          containerRef.current.offsetHeight -
+            theadRef.current.offsetHeight -
+            searchbarRef.current.offsetHeight -
+            scrollBarHeight,
         );
       }
-    };
+    },
+    [],
+  );
 
+  useLayoutEffect(() => {
     updateMaxHeight();
 
     window.addEventListener('resize', updateMaxHeight);
@@ -350,19 +357,19 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       window.removeEventListener('resize', updateMaxHeight);
     };
   }, []);
-  const itemSize = 40;
+  const itemSize = useMemo(() => 40, []);
   const height = Math.min(maxHeight, itemSize * rows.length);
 
   return (
-    <div className="flex flex-col min-h-0 h-full flex-grow">
-      <div className="px-8">
+    <div ref={containerRef} className="flex flex-col min-h-0 h-full flex-grow">
+      <div ref={searchbarRef} className="px-8">
         <GlobalFilter
           preGlobalFilteredRows={preGlobalFilteredRows}
           globalFilter={state.globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
       </div>
-      <div ref={tableRef} className="flex-grow">
+      <div className="flex-grow flex-shrink">
         <div className="overflow-x-scroll overflow-y-hidden">
           <div {...getTableProps()} className="project-table table">
             <ProjectTableHeader headerGroups={headerGroups} ref={theadRef} />
