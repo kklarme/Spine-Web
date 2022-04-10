@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "eslint": "npm run eslint --workspaces",
-    "prettier": "npm run prettier --workspaces"
+    "prettier": "npm run prettier --workspaces",
+    "prepublish": "node scripts/prePublish.mjs"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.15.0",
