@@ -13,9 +13,7 @@ export class Project {
   teamId: number;
   teamName?: string;
   releaseDate: Date;
-  majorVersion: number;
-  minorVersion: number;
-  patchVersion: number;
+  version: string;
   spineVersion: number;
   devDuration: number;
   avgDuration: number;
@@ -38,9 +36,7 @@ export class Project {
     this.teamId = parseInt(project.TeamID);
     this.teamName = project.TeamName ? unescapeHtml(project.TeamName) : undefined;
     this.releaseDate = parseSpineDate(project.ReleaseDate);
-    this.majorVersion = parseInt(project.MajorVersion);
-    this.minorVersion = parseInt(project.MinorVersion);
-    this.patchVersion = parseInt(project.PatchVersion);
+    this.version = `${project.MajorVersion}.${project.MinorVersion}.${project.PatchVersion}`
     this.spineVersion = parseInt(project.SpineVersion);
     this.devDuration = parseInt(project.DevDuration);
     this.avgDuration = parseInt(project.AvgDuration);
