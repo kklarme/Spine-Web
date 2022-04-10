@@ -3,12 +3,12 @@ import { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'rea
 import { TFunction, useTranslation } from 'react-i18next';
 import { capitalizeWord, detectScrollbarHeight } from '../utilities';
 import {
+  CellProps,
   Column,
   FilterTypes,
   Row,
   SortByFn,
   SortingRule,
-  useAsyncDebounce,
   useFlexLayout,
   useGlobalFilter,
   useResizeColumns,
@@ -20,44 +20,11 @@ import LanguagesView from './LanguagesView';
 import { matchSorter } from 'match-sorter';
 import Link from 'next/link';
 import ProjectTableHeader from './ProjectTableHeader';
-import { SearchIcon } from '@heroicons/react/outline';
+import TableFilterInput from './TableFilterInput';
 
 export interface ProjectTableProps {
   projects: Project[];
 }
-
-export interface GlobalFilterProps {
-  preGlobalFilteredRows: Row<Project>[];
-  globalFilter: string;
-  setGlobalFilter: (filter: string) => void;
-}
-
-const GlobalFilter: FC<GlobalFilterProps> = ({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}) => {
-  const count = preGlobalFilteredRows.length;
-  const [value, setValue] = useState(globalFilter);
-  const onChange = useAsyncDebounce((value) => {
-    setGlobalFilter(value || undefined);
-  }, 200);
-
-  return (
-    <div className="inline-flex items-center my-4">
-      <SearchIcon className="w-6 h-6 -ml-0.5" />
-      <input
-        className="ml-1"
-        value={value || ''}
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange(e.target.value);
-        }}
-        placeholder={`${count} records...`}
-      />
-    </div>
-  );
-};
 
 function fuzzyTextFilterFn(rows: Row<Project>[], ids: string[], filterValue: string) {
   // { keys: [row => row.values[id]] }
@@ -100,6 +67,24 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
             {props.value}
           </p>
         );
+      },
+    [],
+  );
+
+  const PlaytimeCell = useMemo(
+    () =>
+      function PlaytimeCell(props: CellProps<Project>) {
+        let duration = props.value;
+        let durationUnitTranslationKey = 'minute';
+        if (duration >= 60) {
+          duration = Math.ceil(duration / 60);
+          durationUnitTranslationKey = 'hour';
+        }
+        const value =
+          duration > 0
+            ? `${duration} ${t(`time.${durationUnitTranslationKey}`, { count: duration })}`
+            : emptyValue;
+        return <DefaultCell {...props} value={value} />;
       },
     [],
   );
@@ -187,21 +172,15 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         sortType: 'number',
       },
       {
-        Header: tc('project.developerPlaytime'),
+        Header: tc('project.avgPlaytime'),
+        accessor: 'avgDuration',
+        Cell: PlaytimeCell,
+        sortType: 'number',
+      },
+      {
+        Header: tc('project.devPlaytime'),
         accessor: 'devDuration',
-        Cell: (props) => {
-          let duration = props.value;
-          let durationUnitTranslationKey = 'minute';
-          if (duration >= 60) {
-            duration = Math.ceil(duration / 60);
-            durationUnitTranslationKey = 'hour';
-          }
-          const value =
-            duration > 0
-              ? `${duration} ${t(`time.${durationUnitTranslationKey}`, { count: duration })}`
-              : emptyValue;
-          return <DefaultCell {...props} value={value} />;
-        },
+        Cell: PlaytimeCell,
         sortType: 'number',
       },
       {
@@ -219,6 +198,13 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
           return <DefaultCell {...props} value={props.value.toLocaleDateString()} />;
         },
         sortType: 'datetime',
+      },
+      {
+        Header: tc('project.version'),
+        accessor: 'version',
+        minWidth: 100,
+        width: 140,
+        maxWidth: 180,
       },
       {
         Header: tc('project.languages'),
@@ -241,7 +227,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         Cell: (props: any) => {
           return (
             <button
-              className="hidden md:block text-accent hover:text-accent-dark"
+              className="hidden md:block text-accent hover:text-accent-dark group-hover:text-white"
               onClick={() => {
                 window.open(`spine://start/${props.row.original.id}`, '_blank');
               }}
@@ -317,12 +303,12 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
           {...row.getRowProps({
             style,
           })}
-          className="tr"
+          className="tr group border-b hover:bg-accent-light hover:text-white"
         >
           {row.cells.map((cell) => {
             return (
               // eslint-disable-next-line react/jsx-key
-              <div {...cell.getCellProps()} className="td">
+              <div {...cell.getCellProps()} className="td border-r px-8">
                 {cell.render('Cell')}
               </div>
             );
@@ -362,12 +348,13 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
   return (
     <div ref={containerRef} className="flex flex-col min-h-0 h-full flex-grow">
-      <div ref={searchbarRef} className="px-8">
-        <GlobalFilter
-          preGlobalFilteredRows={preGlobalFilteredRows}
-          globalFilter={state.globalFilter}
-          setGlobalFilter={setGlobalFilter}
+      <div ref={searchbarRef} className="flex items-center justify-between px-8">
+        <TableFilterInput
+          preFilteredRows={preGlobalFilteredRows}
+          filter={state.globalFilter}
+          setFilter={setGlobalFilter}
         />
+        <div>Foo</div>
       </div>
       <div className="flex-grow flex-shrink">
         <div className="overflow-x-scroll overflow-y-hidden">

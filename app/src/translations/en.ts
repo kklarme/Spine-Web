@@ -35,10 +35,12 @@ export default {
     author: 'author',
     type: 'type',
     game: 'game',
-    developerPlaytime: 'dev playtime',
+    devPlaytime: 'dev playtime',
+    avgPlaytime: 'avg playtime',
     releaseDate: 'released at',
     updateDate: 'updated at',
     languages: 'languages',
+    version: 'version',
     downloadSize: 'size',
   },
 };

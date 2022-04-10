@@ -13,13 +13,13 @@ const ProjectTableHeader = forwardRef<HTMLDivElement, ProjectTableHeadProps>((pr
   const scrollbarWidth = useMemo(() => detectScrollbarWidth(), []);
 
   return (
-    <div ref={ref} className="thead bg-gray-50 border-t border-b border-b-gray-300 shadow-sm">
+    <div ref={ref} className="thead bg-gray-100 border-t border-b border-b-gray-300 shadow-sm">
       {props.headerGroups.map((headerGroup) => (
         // eslint-disable-next-line react/jsx-key
         <div {...headerGroup.getHeaderGroupProps()} className="tr">
           {headerGroup.headers.map((column) => (
             // eslint-disable-next-line react/jsx-key
-            <div {...column.getHeaderProps()} className="th h-12" title={column.Header as string}>
+            <div {...column.getHeaderProps()} className="th border-r h-12" title={column.Header as string}>
               <div
                 {...column.getSortByToggleProps()}
                 title={undefined}

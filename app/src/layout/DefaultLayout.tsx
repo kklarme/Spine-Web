@@ -30,7 +30,7 @@ const DefaultLayout: FC = (props) => {
         <meta name="theme-color" content="#871313" />
       </Head>
 
-      <div className="h-14 flex items-center flex-shrink-0 justify-between px-4 bg-gray-300">
+      <div className="h-14 flex items-center flex-shrink-0 justify-between px-4 bg-gray-500 shadow">
         <a
           href="https://clockwork-origins.com/de/spine/"
           target="_blank"

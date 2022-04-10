@@ -3,7 +3,7 @@
   border-spacing: 0;
 
   & .tr {
-    &:last-child {
+    & :last-child {
       & .td {
         @apply border-b-0;
       }
@@ -14,37 +14,20 @@
     }
   }
 
-  & .tbody .tr {
-    @apply border-b hover:bg-accent-light hover:text-white;
-  }
-
-  & .th {
-    @apply border-r;
-  }
-
-  & .td {
-    @apply border-r px-8;
-  }
-
   & .th,
   & .td {
-    /*border-b border-r*/
     @apply flex items-center text-left justify-start m-0 relative;
 
-    &:last-child {
+    & :last-child {
       @apply border-r-0;
     }
 
     & .resizer {
       @apply h-full w-px absolute top-0 -right-px bg-gray-200 z-10 select-none touch-none;
 
-      &.isResizing {
+      & .isResizing {
         @apply bg-accent;
       }
     }
-  }
-
-  & .virtual-list > div {
-    /*@apply border-r border-black;*/
   }
 }

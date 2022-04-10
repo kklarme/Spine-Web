@@ -32,11 +32,6 @@ const ProjectPage: NextPage<ProjectPageProps> = (props) => {
           ))}
         </div>
 
-        <div>
-          {projectInfo.screenshots.map((screenshot) => (
-            <div key={screenshot.file}></div>
-          ))}
-        </div>
         <div>{projectInfo.name}</div>
       </main>
     </div>

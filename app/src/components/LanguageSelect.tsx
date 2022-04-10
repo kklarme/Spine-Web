@@ -17,7 +17,7 @@ const LanguageSelect: FC<LanguageSelectProps> = (props) => {
         return (
           <button
             className={`flex items-center h-6 border-b-2 ${
-              isActive ? 'border-primary-500' : 'border-transparent'
+              isActive ? 'border-accent' : 'border-transparent'
             }`}
             key={language}
             onClick={() => props.setLanguage(language as Language)}
