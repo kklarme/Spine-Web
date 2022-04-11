@@ -41,9 +41,9 @@ import {
   UseSortByOptions,
   UseSortByState,
 } from 'react-table';
+import { TFunction } from 'i18next';
 
 declare module 'react-table' {
-
   export interface TableOptions<D extends Record<string, unknown>>
     extends UseExpandedOptions<D>,
       // UseFiltersOptions<D>,
@@ -74,7 +74,9 @@ declare module 'react-table' {
       // UsePaginationInstanceProps<D>,
       // UseRowSelectInstanceProps<D>,
       // UseRowStateInstanceProps<D>,
-      UseSortByInstanceProps<D> {}
+      UseSortByInstanceProps<D> {
+    t: TFunction;
+  }
 
   export interface TableState<
     D extends Record<string, unknown> = Record<string, unknown>,

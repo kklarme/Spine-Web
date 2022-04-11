@@ -9,7 +9,7 @@ export interface TableFilterInputProps {
   setFilter: (filter: string) => void;
 }
 
-const TableFilterInput: FC<TableFilterInputProps> = ({ preFilteredRows, filter, setFilter }) => {
+const ProjectTableFilterInput: FC<TableFilterInputProps> = ({ preFilteredRows, filter, setFilter }) => {
   const count = preFilteredRows.length;
   const [value, setValue] = useState(filter);
   const onChange = useAsyncDebounce((value) => {
@@ -33,4 +33,4 @@ const TableFilterInput: FC<TableFilterInputProps> = ({ preFilteredRows, filter, 
   );
 };
 
-export default TableFilterInput;
+export default ProjectTableFilterInput;

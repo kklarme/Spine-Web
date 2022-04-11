@@ -1,7 +1,7 @@
-import { formatDownloadSize, Project } from 'spine-api';
+import { Project } from 'spine-api';
 import { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { capitalizeWord, detectScrollbarHeight } from '../utilities';
+import { capitalizeWord, detectScrollbarHeight } from '../../utilities';
 import {
   CellProps,
   Column,
@@ -16,11 +16,21 @@ import {
   useTable,
 } from 'react-table';
 import { FixedSizeList } from 'react-window';
-import LanguagesView from './LanguagesView';
 import { matchSorter } from 'match-sorter';
-import Link from 'next/link';
 import ProjectTableHeader from './ProjectTableHeader';
-import TableFilterInput from './TableFilterInput';
+import ProjectTableFilterInput from './ProjectTableFilterInput';
+import DefaultCell from './cells/DefaultCell';
+import PlaytimeCell from './cells/PlaytimeCell';
+import DateCell from './cells/DateCell';
+import FileSizeCell from './cells/FileSizeCell';
+import LanguagesCell from './cells/LanguagesCell';
+import ActionsCell from './cells/ActionsCell';
+import IdCell from './cells/IdCell';
+import NameCell from './cells/NameCell';
+import ModTypeCell from './cells/ModTypeCell';
+import GameTypeCell from './cells/GameTypeCell';
+
+export type ProjectCellProps<V = any> = CellProps<Project, V> & { t: TFunction };
 
 export interface ProjectTableProps {
   projects: Project[];
@@ -55,40 +65,6 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     [],
   );
 
-  // provide a default cell component that automatically truncates the value and provides additional props like align
-  const DefaultCell = useMemo(
-    () =>
-      function DefaultCell(props: any) {
-        return (
-          <p
-            className={`truncate ${props.align ? `text-${props.align}` : ''}`}
-            title={props.value.toString()}
-          >
-            {props.value}
-          </p>
-        );
-      },
-    [],
-  );
-
-  const PlaytimeCell = useMemo(
-    () =>
-      function PlaytimeCell(props: CellProps<Project>) {
-        let duration = props.value;
-        let durationUnitTranslationKey = 'minute';
-        if (duration >= 60) {
-          duration = Math.ceil(duration / 60);
-          durationUnitTranslationKey = 'hour';
-        }
-        const value =
-          duration > 0
-            ? `${duration} ${t(`time.${durationUnitTranslationKey}`, { count: duration })}`
-            : emptyValue;
-        return <DefaultCell {...props} value={value} />;
-      },
-    [],
-  );
-
   const sortLanguages = useMemo<SortByFn<Project>>(
     () => (rowA, rowB, columnId, desc) => {
       const aLength = rowA.original.supportedLanguages.length;
@@ -103,20 +79,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       {
         Header: tc('project.id'),
         accessor: 'id',
-        Cell: (props) => {
-          return (
-            <Link
-              href={{
-                pathname: '/project/[id]',
-                query: { id: props.value },
-              }}
-            >
-              <a className={`truncate`} title={props.value.toString()}>
-                {props.value}
-              </a>
-            </Link>
-          );
-        },
+        Cell: IdCell,
         minWidth: 100,
         width: 100,
         maxWidth: 140,
@@ -125,20 +88,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       {
         Header: tc('project.name'),
         accessor: 'name',
-        Cell: (props) => {
-          return (
-            <Link
-              href={{
-                pathname: '/project/[id]',
-                query: { id: props.row.original.id },
-              }}
-            >
-              <a className={`truncate font-medium`} title={props.value}>
-                {props.value}
-              </a>
-            </Link>
-          );
-        },
+        Cell: NameCell,
         minWidth: 300,
         width: 420,
         maxWidth: 700,
@@ -147,9 +97,6 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       {
         Header: tc('project.author'),
         accessor: 'teamName',
-        Cell: (props) => {
-          return <DefaultCell {...props} align="left" />;
-        },
         minWidth: 160,
         width: 220,
         maxWidth: 400,
@@ -158,17 +105,13 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       {
         Header: tc('project.type'),
         accessor: 'modType',
-        Cell: (props) => {
-          return <DefaultCell {...props} value={t(`modType.${props.value}`)} />;
-        },
+        Cell: ModTypeCell,
         sortType: 'number',
       },
       {
         Header: tc('project.game'),
         accessor: 'gameType',
-        Cell: (props) => {
-          return <DefaultCell {...props} value={t(`gameType.${props.value}`)} />;
-        },
+        Cell: GameTypeCell,
         sortType: 'number',
       },
       {
@@ -186,17 +129,13 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       {
         Header: tc('project.releaseDate'),
         accessor: 'releaseDate',
-        Cell: (props) => {
-          return <DefaultCell {...props} value={props.value.toLocaleDateString()} />;
-        },
+        Cell: DateCell,
         sortType: 'datetime',
       },
       {
         Header: tc('project.updateDate'),
         accessor: 'updateDate',
-        Cell: (props) => {
-          return <DefaultCell {...props} value={props.value.toLocaleDateString()} />;
-        },
+        Cell: DateCell,
         sortType: 'datetime',
       },
       {
@@ -209,33 +148,18 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
       {
         Header: tc('project.languages'),
         accessor: 'supportedLanguages',
-        Cell: (props) => {
-          return <LanguagesView languages={props.value} />;
-        },
+        Cell: LanguagesCell,
         sortType: sortLanguages,
       },
       {
         Header: tc('project.downloadSize'),
         accessor: 'downloadSize',
-        Cell: (props) => {
-          return <DefaultCell {...props} value={formatDownloadSize(props.value)} />;
-        },
+        Cell: FileSizeCell,
         sortType: 'number',
       },
       {
         Header: ' ',
-        Cell: (props: any) => {
-          return (
-            <button
-              className="hidden md:block text-accent hover:text-accent-dark group-hover:text-white"
-              onClick={() => {
-                window.open(`spine://start/${props.row.original.id}`, '_blank');
-              }}
-            >
-              {capitalizeWord(t('start'))}
-            </button>
-          );
-        },
+        Cell: ActionsCell,
         width: 100,
         disableResizing: true,
         disableSortBy: true,
@@ -309,7 +233,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
             return (
               // eslint-disable-next-line react/jsx-key
               <div {...cell.getCellProps()} className="td border-r px-8">
-                {cell.render('Cell')}
+                {cell.render('Cell', { t })}
               </div>
             );
           })}
@@ -349,7 +273,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   return (
     <div ref={containerRef} className="flex flex-col min-h-0 h-full flex-grow">
       <div ref={topBarRef} className="flex items-center justify-between px-8">
-        <TableFilterInput
+        <ProjectTableFilterInput
           preFilteredRows={preGlobalFilteredRows}
           filter={state.globalFilter}
           setFilter={setGlobalFilter}

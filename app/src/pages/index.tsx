@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { SERVER_URL } from '../constants';
 
 // Render project table only on client because we need window and document for correct dimension calculation
-const DynamicProjectListWithoutSSR = dynamic(() => import('../components/ProjectTable'), {
+const DynamicProjectListWithoutSSR = dynamic(() => import('../components/project-table/ProjectTable'), {
   ssr: false,
 });
 

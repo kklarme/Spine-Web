@@ -1,7 +1,7 @@
 import { createElement, forwardRef, useMemo } from 'react';
 import { HeaderGroup } from 'react-table';
 import { Project } from 'spine-api';
-import { detectScrollbarWidth } from '../utilities';
+import { detectScrollbarWidth } from '../../utilities';
 import { SortAscendingIcon, SortDescendingIcon } from '@heroicons/react/solid';
 
 export interface ProjectTableHeadProps {
