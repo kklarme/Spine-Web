@@ -1,10 +1,11 @@
-import { Credentials, RawProjectInfo, RequestAllProjectsResponse } from './types';
+import { Credentials } from './types';
 import axios from 'axios';
 import { Project } from './Project';
-import { ProjectInfo } from './ProjectInfo';
+import { ProjectInfo, RawProjectInfo } from './ProjectInfo';
 import { inflateRaw } from 'pako';
 import { merge } from './utilities';
 import { Language, LANGUAGE_NAME_MAP } from './SpineLanguage';
+import { RequestAllProjectsResponse } from './responses';
 
 export interface SpineApiConfig {
   serverUrl: string;
@@ -19,8 +20,6 @@ export class SpineApi {
       username: '',
       password: '',
     },
-    // for whatever reason a lot of teamName properties are missing if another language property than 'Deutsch' is passed
-    // therefore the default language value is 'Deutsch'
     language: Language.German,
   };
 
@@ -65,10 +64,7 @@ export class SpineApi {
     return response.data;
   }
 
-  static async getProjectInfo(
-    id: string,
-    config?: Partial<SpineApiConfig>,
-  ): Promise<ProjectInfo> {
+  static async getProjectInfo(id: string, config?: Partial<SpineApiConfig>): Promise<ProjectInfo> {
     const projectInfo = await this.requestProjectInfo(id, config);
     return new ProjectInfo(projectInfo);
   }
@@ -82,7 +78,7 @@ export class SpineApi {
     // these two bytes are probably a header but none of the nodejs/pako methods seem to be able to handle that
     // therefore these two bytes are simply omitted
     // copy everything but the first two bytes into buffer
-    const buffer = new Uint8Array(response.data.buffer,2,response.data.byteLength - 2);
+    const buffer = new Uint8Array(response.data.buffer, 2, response.data.byteLength - 2);
     // lastly we want to decompress the buffer
     return inflateRaw(buffer);
   }

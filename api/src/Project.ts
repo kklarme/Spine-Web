@@ -1,7 +1,29 @@
-import { GameType, ModType, RawPackage, RawProject } from './types';
 import { parseSpineDate, unescapeHtml } from './utilities';
-import { Package } from './Package';
+import { Package, RawPackage } from './Package';
 import { Language, SpineLanguage } from './SpineLanguage';
+import { GameType } from './GameType';
+import { ModType } from './ModType';
+
+export interface RawProject {
+  ProjectID: string;
+  Name: string;
+  GameType: string;
+  ModType: string;
+  Keywords: string; // semicolon (;) delimited string, always ends with delimiter
+  SupportedLanguages: string; // ? | probably there is a language entry in the database for every possible language combination
+  TeamID: string;
+  TeamName?: string;
+  ReleaseDate: string; // hours till now
+  MajorVersion: string;
+  MinorVersion: string;
+  PatchVersion: string;
+  SpineVersion: string;
+  DevDuration: string; // in minutes
+  AvgDuration: string; // in minutes
+  DownloadSize: string;
+  UpdateDate: string; // hours till now
+  Language: string; // ? | look at SupportedLanguages
+}
 
 export class Project {
   id: number;
@@ -36,7 +58,7 @@ export class Project {
     this.teamId = parseInt(project.TeamID);
     this.teamName = project.TeamName ? unescapeHtml(project.TeamName) : undefined;
     this.releaseDate = parseSpineDate(project.ReleaseDate);
-    this.version = `${project.MajorVersion}.${project.MinorVersion}.${project.PatchVersion}`
+    this.version = `${project.MajorVersion}.${project.MinorVersion}.${project.PatchVersion}`;
     this.spineVersion = parseInt(project.SpineVersion);
     this.devDuration = parseInt(project.DevDuration);
     this.avgDuration = parseInt(project.AvgDuration);

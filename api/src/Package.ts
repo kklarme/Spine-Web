@@ -1,5 +1,11 @@
-import { RawPackage } from './types';
 import { unescapeHtml } from './utilities';
+
+export interface RawPackage {
+  PackageID: string;
+  ProjectID: string;
+  Name: string;
+  Language: string;
+}
 
 export class Package {
   id: number;
