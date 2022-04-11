@@ -37,7 +37,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   const { t, i18n } = useTranslation();
   const theadRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const searchbarRef = useRef<HTMLDivElement>(null);
+  const topBarRef = useRef<HTMLDivElement>(null);
 
   const tc = (...args: Parameters<TFunction>) => {
     const tResult = t(...args);
@@ -323,11 +323,11 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
   const updateMaxHeight = useMemo(
     () => () => {
-      if (theadRef.current && containerRef.current && searchbarRef.current) {
+      if (theadRef.current && containerRef.current && topBarRef.current) {
         setMaxHeight(
           containerRef.current.offsetHeight -
             theadRef.current.offsetHeight -
-            searchbarRef.current.offsetHeight -
+            topBarRef.current.offsetHeight -
             scrollBarHeight,
         );
       }
@@ -348,13 +348,13 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
   return (
     <div ref={containerRef} className="flex flex-col min-h-0 h-full flex-grow">
-      <div ref={searchbarRef} className="flex items-center justify-between px-8">
+      <div ref={topBarRef} className="flex items-center justify-between px-8">
         <TableFilterInput
           preFilteredRows={preGlobalFilteredRows}
           filter={state.globalFilter}
           setFilter={setGlobalFilter}
         />
-        <div>Foo</div>
+        <div></div>
       </div>
       <div className="flex-grow flex-shrink">
         <div className="overflow-x-scroll overflow-y-hidden">

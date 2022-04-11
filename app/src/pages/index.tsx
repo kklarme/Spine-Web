@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { Project } from 'spine-api';
+import { Language, Project, SpineApi } from 'spine-api';
 import { useEffect, useState } from 'react';
-import api from '../api';
+import { useTranslation } from 'react-i18next';
+import { SERVER_URL } from '../constants';
 
 // Render project table only on client because we need window and document for correct dimension calculation
 const DynamicProjectListWithoutSSR = dynamic(() => import('../components/ProjectTable'), {
@@ -11,15 +12,19 @@ const DynamicProjectListWithoutSSR = dynamic(() => import('../components/Project
 });
 
 const ProjectsPage: NextPage = (props) => {
+  const { i18n } = useTranslation();
   const [isLoading, setLoading] = useState(true);
   const [projects, setProjects] = useState<Project[]>([]);
   useEffect(() => {
     setLoading(true);
-    api.getProjects().then((loadedProjects) => {
+    SpineApi.getProjects({
+      serverUrl: SERVER_URL,
+      language: i18n.language as Language,
+    }).then((loadedProjects) => {
       setLoading(false);
       setProjects(loadedProjects);
     });
-  }, []);
+  }, [i18n.language]);
 
   return (
     <div className="flex flex-col min-h-0 flex-grow">

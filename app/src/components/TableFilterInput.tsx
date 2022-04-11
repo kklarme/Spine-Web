@@ -17,10 +17,11 @@ const TableFilterInput: FC<TableFilterInputProps> = ({ preFilteredRows, filter, 
   }, 200);
 
   return (
-    <div className="inline-flex items-center my-4">
-      <SearchIcon className="w-6 h-6 -ml-0.5" />
+    <div className="inline-flex items-center my-2">
+      <SearchIcon className="w-5 h-5 -ml-0.5" />
       <input
-        className="ml-1"
+        autoFocus={true}
+        className="ml-1.5 focus:outline-none"
         value={value || ''}
         onChange={(e) => {
           setValue(e.target.value);

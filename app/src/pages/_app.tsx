@@ -7,6 +7,8 @@ import resources from '../translations';
 import DefaultLayout from '../layout/DefaultLayout';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import api from '../api';
+import {Language} from "spine-api";
 
 i18n.use(initReactI18next).init({
   resources,
@@ -15,12 +17,10 @@ i18n.use(initReactI18next).init({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { locale } = useRouter();
-
   useEffect(() => {
-    i18n.changeLanguage(locale).then(() => {
-      // make sure to await the language change
-    });
-  });
+    i18n.changeLanguage(locale).then(() => {});
+    // make sure to await the language change
+  }, [locale]);
 
   return (
     <DefaultLayout>

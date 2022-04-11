@@ -7,3 +7,5 @@ export const LANGUAGE_COUNTRY_FLAG_MAP: Record<Language, FlagComponent> = {
   [Language.Polish]: Flags.PL,
   [Language.Russian]: Flags.RU,
 };
+
+export const SERVER_URL = `/api/spine`;
