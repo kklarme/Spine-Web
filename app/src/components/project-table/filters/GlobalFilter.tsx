@@ -1,7 +1,7 @@
 import { Row, useAsyncDebounce } from 'react-table';
 import { Project } from 'spine-api';
 import { FC, useState } from 'react';
-import { SearchIcon } from '@heroicons/react/outline';
+import { SearchIcon } from '@heroicons/react/solid';
 
 export interface GlobalFilterProps {
   preFilteredRows: Row<Project>[];
@@ -17,11 +17,11 @@ const GlobalFilter: FC<GlobalFilterProps> = ({ preFilteredRows, globalFilter, se
   }, 200);
 
   return (
-    <div className="inline-flex items-center">
-      <SearchIcon className="w-5 h-5 -ml-0.5" />
+    <div className="flex items-center border px-2 py-1 rounded-md max-w-md">
+      <SearchIcon className="w-5 h-5" />
       <input
         autoFocus={true}
-        className="ml-1.5 focus:outline-none"
+        className="ml-1 focus:outline-none"
         value={value || ''}
         onChange={(e) => {
           setValue(e.target.value);

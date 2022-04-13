@@ -1,7 +1,7 @@
-import { Project } from 'spine-api';
-import { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { GameType, Language, LANGUAGE_BIT_MAP, ModType, Project } from 'spine-api';
+import { createElement, FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { capitalizeWord, detectScrollbarHeight } from '../../utilities';
+import { capitalizeWord, capitalizeWords, detectScrollbarHeight } from '../../utilities';
 import {
   CellProps,
   Column,
@@ -30,15 +30,16 @@ import IdCell from './cells/IdCell';
 import NameCell from './cells/NameCell';
 import ModTypeCell from './cells/ModTypeCell';
 import GameTypeCell from './cells/GameTypeCell';
-import LanguageFilter from './filters/LanguageFilter';
-import ModTypeFilter from './filters/ModTypeFilter';
-import GameTypeFilter from './filters/GameTypeFilter';
+import EnumTypeFilter from './filters/EnumTypeFilter';
+import { LANGUAGE_COUNTRY_FLAG_MAP } from '../../constants';
 
 export type ProjectCellProps<V = any> = CellProps<Project, V> & { t: TFunction };
 
 export interface ProjectTableProps {
   projects: Project[];
 }
+
+const DEFAULT_ASSUMED_TOP_BAR_HEIGHT = 300;
 
 const ProjectTable: FC<ProjectTableProps> = (props) => {
   const { t, i18n } = useTranslation();
@@ -252,7 +253,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     [prepareRow, rows],
   );
 
-  const [maxHeight, setMaxHeight] = useState(window.innerHeight - 200);
+  const [maxHeight, setMaxHeight] = useState(window.innerHeight - DEFAULT_ASSUMED_TOP_BAR_HEIGHT);
 
   const updateMaxHeight = useMemo(
     () => () => {
@@ -279,26 +280,72 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   const itemSize = useMemo(() => 40, []);
   const height = Math.min(maxHeight, itemSize * rows.length);
 
+  const onToggleFilter = () => {
+    requestAnimationFrame(updateMaxHeight);
+  };
+
   return (
     <div ref={containerRef} className="flex flex-col min-h-0 h-full flex-grow">
-      <div ref={topBarRef} className="flex items-center justify-between px-8">
-        <GlobalFilter
-          preFilteredRows={rows}
-          globalFilter={state.globalFilter}
-          setGlobalFilter={setGlobalFilter}
-        />
-        <div className="flex">
-          <GameTypeFilter
+      <div ref={topBarRef} className="flex flex-col p-4">
+        <div className="flex justify-between">
+          <GlobalFilter
+            preFilteredRows={rows}
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+        </div>
+        <hr className="mt-3" />
+        <div className="mt-3 flex flex-col space-y-3 lg:flex-row lg:space-y-0 lg:space-x-4">
+          <EnumTypeFilter
+            className="flex-grow"
+            isNumberEnum={true}
+            enum={GameType}
+            columnId={'gameType'}
+            columns={{ 'default': 2, 'md': 4, 'lg': 2, '2xl': 3 }}
+            header={capitalizeWords(t('project.game'))}
             filter={state.filters.find((filter) => filter.id === 'gameType')?.value}
             setFilter={setFilter}
+            onToggle={onToggleFilter}
           />
-          <ModTypeFilter
+          <EnumTypeFilter
+            className="flex-grow"
+            isNumberEnum={true}
+            enum={ModType}
+            columnId={'modType'}
+            columns={{ 'default': 2, 'md': 4, 'lg': 2, 'xl': 3, '2xl': 4 }}
+            header={capitalizeWords(t('project.type'))}
             filter={state.filters.find((filter) => filter.id === 'modType')?.value}
             setFilter={setFilter}
+            onToggle={onToggleFilter}
           />
-          <LanguageFilter
+          <EnumTypeFilter
+            className=""
+            isNumberEnum={false}
+            enum={Language}
+            columnId={'supportedLanguages'}
+            columns={{ default: 2, md: 4, lg: 1, xl: 2 }}
+            header={capitalizeWords(t('project.languages'))}
+            label={(props) => {
+              const flagComponent = createElement(
+                LANGUAGE_COUNTRY_FLAG_MAP[props.value as Language],
+                {
+                  className: 'inline-flex w-6 h-auto shadow',
+                },
+              );
+              return (
+                <div className="flex items-center">
+                  {flagComponent}
+                  <span className="ml-1 text-gray-600">{t(`language.${props.value}`)}</span>
+                </div>
+              );
+            }}
+            translationKey={'language'}
             filter={state.filters.find((filter) => filter.id === 'supportedLanguages')?.value}
+            sortFilterValue={(a: Language, b: Language) => {
+              return LANGUAGE_BIT_MAP[a] - LANGUAGE_BIT_MAP[b];
+            }}
             setFilter={setFilter}
+            onToggle={onToggleFilter}
           />
         </div>
       </div>
