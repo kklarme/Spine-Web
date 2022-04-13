@@ -3,21 +3,21 @@ import { Project } from 'spine-api';
 import { FC, useState } from 'react';
 import { SearchIcon } from '@heroicons/react/outline';
 
-export interface TableFilterInputProps {
+export interface GlobalFilterProps {
   preFilteredRows: Row<Project>[];
-  filter: string;
-  setFilter: (filter: string) => void;
+  globalFilter: string;
+  setGlobalFilter: (filter: string) => void;
 }
 
-const ProjectTableFilterInput: FC<TableFilterInputProps> = ({ preFilteredRows, filter, setFilter }) => {
+const GlobalFilter: FC<GlobalFilterProps> = ({ preFilteredRows, globalFilter, setGlobalFilter }) => {
   const count = preFilteredRows.length;
-  const [value, setValue] = useState(filter);
+  const [value, setValue] = useState(globalFilter);
   const onChange = useAsyncDebounce((value) => {
-    setFilter(value || undefined);
+    setGlobalFilter(value || undefined);
   }, 200);
 
   return (
-    <div className="inline-flex items-center my-2">
+    <div className="inline-flex items-center">
       <SearchIcon className="w-5 h-5 -ml-0.5" />
       <input
         autoFocus={true}
@@ -33,4 +33,4 @@ const ProjectTableFilterInput: FC<TableFilterInputProps> = ({ preFilteredRows, f
   );
 };
 
-export default ProjectTableFilterInput;
+export default GlobalFilter;

@@ -5,10 +5,12 @@ import { capitalizeWord, detectScrollbarHeight } from '../../utilities';
 import {
   CellProps,
   Column,
+  Filters,
+  FilterType,
   FilterTypes,
-  Row,
   SortByFn,
   SortingRule,
+  useFilters,
   useFlexLayout,
   useGlobalFilter,
   useResizeColumns,
@@ -16,9 +18,8 @@ import {
   useTable,
 } from 'react-table';
 import { FixedSizeList } from 'react-window';
-import { matchSorter } from 'match-sorter';
 import ProjectTableHeader from './ProjectTableHeader';
-import ProjectTableFilterInput from './ProjectTableFilterInput';
+import GlobalFilter from './filters/GlobalFilter';
 import DefaultCell from './cells/DefaultCell';
 import PlaytimeCell from './cells/PlaytimeCell';
 import DateCell from './cells/DateCell';
@@ -29,19 +30,15 @@ import IdCell from './cells/IdCell';
 import NameCell from './cells/NameCell';
 import ModTypeCell from './cells/ModTypeCell';
 import GameTypeCell from './cells/GameTypeCell';
+import LanguageFilter from './filters/LanguageFilter';
+import ModTypeFilter from './filters/ModTypeFilter';
+import GameTypeFilter from './filters/GameTypeFilter';
 
 export type ProjectCellProps<V = any> = CellProps<Project, V> & { t: TFunction };
 
 export interface ProjectTableProps {
   projects: Project[];
 }
-
-function fuzzyTextFilterFn(rows: Row<Project>[], ids: string[], filterValue: string) {
-  // { keys: [row => row.values[id]] }
-  return matchSorter(rows, filterValue);
-}
-
-fuzzyTextFilterFn.autoRemove = (val: unknown) => !val;
 
 const ProjectTable: FC<ProjectTableProps> = (props) => {
   const { t, i18n } = useTranslation();
@@ -58,18 +55,22 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
   const scrollBarHeight = useMemo(() => detectScrollbarHeight(), []);
 
-  const filterTypes = useMemo<FilterTypes<Project>>(
-    () => ({
-      fuzzyText: fuzzyTextFilterFn,
-    }),
-    [],
-  );
+  const filterTypes = useMemo<FilterTypes<Project>>(() => ({}), []);
 
   const sortLanguages = useMemo<SortByFn<Project>>(
     () => (rowA, rowB, columnId, desc) => {
       const aLength = rowA.original.supportedLanguages.length;
       const bLength = rowB.original.supportedLanguages.length;
       return aLength - bLength;
+    },
+    [],
+  );
+
+  const arrayFilter = useMemo<FilterType<Project>>(
+    () => (rows, columnIds, filterValue) => {
+      const columnId = columnIds[0] as keyof Project;
+      filterValue = !Array.isArray(filterValue) ? [] : filterValue;
+      return rows.filter((row) => filterValue.includes(row.original[columnId]));
     },
     [],
   );
@@ -107,12 +108,14 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         accessor: 'modType',
         Cell: ModTypeCell,
         sortType: 'number',
+        filter: arrayFilter,
       },
       {
         Header: tc('project.game'),
         accessor: 'gameType',
         Cell: GameTypeCell,
         sortType: 'number',
+        filter: arrayFilter,
       },
       {
         Header: tc('project.avgPlaytime'),
@@ -150,6 +153,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
         accessor: 'supportedLanguages',
         Cell: LanguagesCell,
         sortType: sortLanguages,
+        filter: 'text',
       },
       {
         Header: tc('project.downloadSize'),
@@ -187,6 +191,8 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     ];
   }, []);
 
+  const initialFilters = useMemo<Filters<Project>>(() => [], []);
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -196,7 +202,8 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
     state,
     preGlobalFilteredRows,
     setGlobalFilter,
-  } = useTable(
+    setFilter,
+  } = useTable<Project>(
     {
       columns,
       data,
@@ -210,11 +217,13 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
 
       initialState: {
         sortBy: initialSortBy,
+        filters: initialFilters,
       },
     },
     useResizeColumns,
     useFlexLayout,
     useGlobalFilter,
+    useFilters,
     useSortBy,
   );
 
@@ -273,12 +282,25 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
   return (
     <div ref={containerRef} className="flex flex-col min-h-0 h-full flex-grow">
       <div ref={topBarRef} className="flex items-center justify-between px-8">
-        <ProjectTableFilterInput
-          preFilteredRows={preGlobalFilteredRows}
-          filter={state.globalFilter}
-          setFilter={setGlobalFilter}
+        <GlobalFilter
+          preFilteredRows={rows}
+          globalFilter={state.globalFilter}
+          setGlobalFilter={setGlobalFilter}
         />
-        <div></div>
+        <div className="flex">
+          <GameTypeFilter
+            filter={state.filters.find((filter) => filter.id === 'gameType')?.value}
+            setFilter={setFilter}
+          />
+          <ModTypeFilter
+            filter={state.filters.find((filter) => filter.id === 'modType')?.value}
+            setFilter={setFilter}
+          />
+          <LanguageFilter
+            filter={state.filters.find((filter) => filter.id === 'supportedLanguages')?.value}
+            setFilter={setFilter}
+          />
+        </div>
       </div>
       <div className="flex-grow flex-shrink">
         <div className="overflow-x-scroll overflow-y-hidden">
