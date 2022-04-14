@@ -11,7 +11,8 @@
     "prewatch": "rimraf dist",
     "watch": "tsc -w",
     "lint": "eslint src --ext .ts",
-    "format": "prettier --write src"
+    "format": "prettier --write src",
+    "generate-api-coverage": "ts-node scripts/generate-api-coverage.ts --cwd ."
   },
   "dependencies": {
     "axios": "^0.26.1",
@@ -30,6 +31,7 @@
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.6.0",
     "rimraf": "^3.0.2",
+    "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
   },
   "author": "kklarme",

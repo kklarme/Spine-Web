@@ -1,1 +1,3 @@
 # spine-api
+
+[Docs](./docs)
