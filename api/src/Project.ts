@@ -10,7 +10,7 @@ export interface RawProject {
   GameType: string;
   ModType: string;
   Keywords: string; // semicolon (;) delimited string, always ends with delimiter
-  SupportedLanguages: string; // ? | probably there is a language entry in the database for every possible language combination
+  SupportedLanguages: string; // number that stands for a language combination in the SpineLanguage.languageMap (i.e. 1 = German, 2 = English, 3 = German & English)
   TeamID: string;
   TeamName?: string;
   ReleaseDate: string; // hours till now
@@ -22,7 +22,7 @@ export interface RawProject {
   AvgDuration: string; // in minutes
   DownloadSize: string;
   UpdateDate: string; // hours till now
-  Language: string; // ? | look at SupportedLanguages
+  Language: string; // number that stands for a language combination in the SpineLanguage.languageMap (i.e. 1 = German, 2 = English, 3 = German & English)
 }
 
 export class Project {
