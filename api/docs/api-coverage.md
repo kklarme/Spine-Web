@@ -1,59 +1,59 @@
 # spine-api - API coverage
 
-| path                        | method | implemented | file                                                                                                                |
-| --------------------------- | ------ | ----------- | ------------------------------------------------------------------------------------------------------------------- |
-| /requestInfoPage            | POST   | ✅          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestAllProjects         | POST   | ✅          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /getModnameForIDs           | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /getUserID                  | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /getOwnRating               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /getWeightedRating          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /getRatings                 | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /unlockAchievementServer    | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /getUserIDForDiscordID      | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /getDiscordIDForUserID      | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /getSpineLevelRanking       | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /sendUserInfos              | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestSingleProjectStats  | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestCompatibilityList   | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /updatePlayTime             | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestScores              | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /updateScore                | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /getReviews                 | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /updateReview               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestAchievements        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /unlockAchievement          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /updateAchievementProgress  | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestOverallSaveData     | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /updateOverallSaveData      | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestAllFriends          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /updateChapterStats         | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /isAchievementUnlocked      | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /updateOfflineData          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestOfflineData         | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /friendRequest              | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /feedback                   | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /acceptFriend               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /declineFriend              | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /updateLoginTime            | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestRandomPage          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /submitInfoPage             | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /removeFriend               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestOriginalFiles       | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /linkClicked                | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /submitRating               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestUserLevel           | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestAllProjectStats     | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestAllAchievementStats | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestAllScoreStats       | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /updateSucceeded            | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /projectVersionCheck        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /submitNews                 | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /submitCompatibility        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestOwnCompatibilities  | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestAllNews             | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /downloadSucceeded          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /packageDownloadSucceeded   | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestProjectFiles        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /requestPackageFiles        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
-| /gmpLogin                   | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp) |
+| path                        | method | implemented | remote file                                                                                                              | local file                            |
+| --------------------------- | ------ | ----------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------- |
+| /requestInfoPage            | POST   | ✅          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L92)  | [SpineApi.ts](../src/SpineApi.ts#L58) |
+| /requestAllProjects         | POST   | ✅          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L105) | [SpineApi.ts](../src/SpineApi.ts#L32) |
+| /getModnameForIDs           | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L59)  | -                                     |
+| /getUserID                  | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L60)  | -                                     |
+| /getOwnRating               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L61)  | -                                     |
+| /getWeightedRating          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L62)  | -                                     |
+| /getRatings                 | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L63)  | -                                     |
+| /unlockAchievementServer    | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L64)  | -                                     |
+| /getUserIDForDiscordID      | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L65)  | -                                     |
+| /getDiscordIDForUserID      | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L66)  | -                                     |
+| /getSpineLevelRanking       | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L67)  | -                                     |
+| /sendUserInfos              | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L68)  | -                                     |
+| /requestSingleProjectStats  | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L69)  | -                                     |
+| /requestCompatibilityList   | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L70)  | -                                     |
+| /updatePlayTime             | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L71)  | -                                     |
+| /requestScores              | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L72)  | -                                     |
+| /updateScore                | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L73)  | -                                     |
+| /getReviews                 | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L74)  | -                                     |
+| /updateReview               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L75)  | -                                     |
+| /requestAchievements        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L76)  | -                                     |
+| /unlockAchievement          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L77)  | -                                     |
+| /updateAchievementProgress  | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L78)  | -                                     |
+| /requestOverallSaveData     | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L79)  | -                                     |
+| /updateOverallSaveData      | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L80)  | -                                     |
+| /requestAllFriends          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L81)  | -                                     |
+| /updateChapterStats         | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L82)  | -                                     |
+| /isAchievementUnlocked      | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L83)  | -                                     |
+| /updateOfflineData          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L84)  | -                                     |
+| /requestOfflineData         | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L85)  | -                                     |
+| /friendRequest              | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L86)  | -                                     |
+| /feedback                   | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L87)  | -                                     |
+| /acceptFriend               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L88)  | -                                     |
+| /declineFriend              | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L89)  | -                                     |
+| /updateLoginTime            | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L90)  | -                                     |
+| /requestRandomPage          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L91)  | -                                     |
+| /submitInfoPage             | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L93)  | -                                     |
+| /removeFriend               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L94)  | -                                     |
+| /requestOriginalFiles       | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L95)  | -                                     |
+| /linkClicked                | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L96)  | -                                     |
+| /submitRating               | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L97)  | -                                     |
+| /requestUserLevel           | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L98)  | -                                     |
+| /requestAllProjectStats     | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L99)  | -                                     |
+| /requestAllAchievementStats | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L100) | -                                     |
+| /requestAllScoreStats       | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L101) | -                                     |
+| /updateSucceeded            | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L102) | -                                     |
+| /projectVersionCheck        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L103) | -                                     |
+| /submitNews                 | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L104) | -                                     |
+| /submitCompatibility        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L106) | -                                     |
+| /requestOwnCompatibilities  | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L107) | -                                     |
+| /requestAllNews             | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L108) | -                                     |
+| /downloadSucceeded          | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L109) | -                                     |
+| /packageDownloadSucceeded   | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L110) | -                                     |
+| /requestProjectFiles        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L111) | -                                     |
+| /requestPackageFiles        | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L112) | -                                     |
+| /gmpLogin                   | POST   | ❌          | [DatabaseServer.cpp](https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp#L113) | -                                     |
