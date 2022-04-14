@@ -33,6 +33,10 @@ export function getLineNumber(match: RegExpMatchArray): number {
   return substring.split('\n').length;
 }
 
+export function convertGithubRawUrlToGithubUrl(url: string): string {
+  return url.replace('raw.githubusercontent.com', 'github.com').replace(/(master|main)/, 'blob/$1');
+}
+
 export async function collectRemoteRoutes(url: string): Promise<Route[]> {
   const response = await axios.get<string>(url);
   const fileContent = response.data;
@@ -41,7 +45,7 @@ export async function collectRemoteRoutes(url: string): Promise<Route[]> {
     path: match[1],
     method: match[2],
     file: {
-      path: url,
+      path: convertGithubRawUrlToGithubUrl(url),
       lineNumber: getLineNumber(match),
     },
   }));
