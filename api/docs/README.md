@@ -1,3 +1,3 @@
 # spine-api - Docs
 
-[API Coverage](./api-coverage)
+[API Coverage](api-coverage.md)

@@ -1,3 +1,3 @@
 # spine-api
 
-[Docs](./docs)
+[Docs](docs/README.md)
