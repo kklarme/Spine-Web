@@ -9,8 +9,13 @@ import {
   RequestAllProjectsResponse,
 } from './responses';
 import { Credentials, Project, ProjectInfo, RawProjectInfo } from './models';
-import { RequestAllProjectsDto } from './dtos/RequestAllProjectsDto';
-import { GetRatingsDto, GetReviewsDto, RequestAllNewsDto, RequestProjectInfoDto } from './dtos';
+import {
+  GetRatingsDto,
+  GetReviewsDto,
+  RequestAllNewsDto,
+  RequestAllProjectsDto,
+  RequestProjectInfoDto,
+} from './dtos';
 
 export interface SpineApiConfig {
   serverUrl: string;
