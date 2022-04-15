@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios from 'axios';
 import { inflateRaw } from 'pako';
 import { merge } from './utilities';
-import { Language, LANGUAGE_BIT_MAP, LANGUAGE_NAME_MAP } from './SpineLanguage';
+import { Language } from './SpineLanguage';
 import {
   GetRatingsResponse,
   GetReviewsResponse,
@@ -34,11 +34,7 @@ export class SpineApi {
     const { serverUrl, credentials, language } = config
       ? merge(this.defaultConfig, config)
       : this.defaultConfig;
-    const response = await axios.post<
-      RequestAllProjectsResponse,
-      AxiosResponse<RequestAllProjectsResponse>,
-      RequestAllProjectsDto
-    >(
+    const response = await axios.post(
       `${serverUrl}/requestAllProjects`,
       new RequestAllProjectsDto(credentials.username, credentials.password, language),
     );
@@ -64,11 +60,7 @@ export class SpineApi {
     const { serverUrl, credentials, language } = config
       ? merge(this.defaultConfig, config)
       : this.defaultConfig;
-    const response = await axios.post<
-      RawProjectInfo,
-      AxiosResponse<RawProjectInfo>,
-      RequestProjectInfoDto
-    >(
+    const response = await axios.post(
       `${serverUrl}/requestInfoPage`,
       new RequestProjectInfoDto(id, credentials.username, credentials.password, language),
     );
@@ -85,11 +77,10 @@ export class SpineApi {
 
   static async requestAllNews(config?: Partial<SpineApiConfig>): Promise<RequestAllNewsResponse> {
     const { serverUrl, language } = config ? merge(this.defaultConfig, config) : this.defaultConfig;
-    const response = await axios.post<
-      RequestAllNewsResponse,
-      AxiosResponse<RequestAllNewsResponse>,
-      RequestAllNewsDto
-    >(`${serverUrl}/requestAllNews`, new RequestAllNewsDto(language));
+    const response = await axios.post(
+      `${serverUrl}/requestAllNews`,
+      new RequestAllNewsDto(language),
+    );
     return response.data;
   }
 
@@ -98,11 +89,7 @@ export class SpineApi {
     config?: Partial<SpineApiConfig>,
   ): Promise<GetRatingsResponse> {
     const { serverUrl } = config ? merge(this.defaultConfig, config) : this.defaultConfig;
-    const response = await axios.post<
-      GetRatingsResponse,
-      AxiosResponse<GetRatingsResponse>,
-      GetRatingsDto
-    >(`${serverUrl}/getRatings`, new GetRatingsDto(id));
+    const response = await axios.post(`${serverUrl}/getRatings`, new GetRatingsDto(id));
     return response.data;
   }
 
@@ -111,11 +98,7 @@ export class SpineApi {
     config?: Partial<SpineApiConfig>,
   ): Promise<GetReviewsResponse> {
     const { serverUrl } = config ? merge(this.defaultConfig, config) : this.defaultConfig;
-    const response = await axios.post<
-      GetReviewsResponse,
-      AxiosResponse<GetReviewsResponse>,
-      GetReviewsDto
-    >(`${serverUrl}/getReviews`, new GetReviewsDto(id));
+    const response = await axios.post(`${serverUrl}/getReviews`, new GetReviewsDto(id));
     return response.data;
   }
 
