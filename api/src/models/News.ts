@@ -1,26 +1,27 @@
 import { Image, RawImage } from './Image';
 import { ProjectReference, RawProjectReference } from './ProjectReference';
-import { unescapeHtml } from './utilities';
+import { unescapeHtml } from '../utilities';
+import { SpineDate } from '../SpineDate';
 
 export interface RawNews {
-  Timestamp: string;
   Title: string;
   Body: string;
+  Timestamp: string;
   ProjectReferences?: RawProjectReference[];
   Images?: RawImage[];
 }
 
 export class News {
-  timestamp: Date;
   title: string;
   body: string;
+  timestamp: Date;
   projectReferences: ProjectReference[];
   images: Image[];
 
   constructor(news: RawNews) {
-    this.timestamp = new Date(); // TODO determine value based on news.timestamp
     this.title = unescapeHtml(news.Title);
     this.body = unescapeHtml(news.Body);
+    this.timestamp = SpineDate.parseDate(news.Timestamp);
     this.projectReferences = (news.ProjectReferences || []).map(
       (projectReference) => new ProjectReference(projectReference),
     );

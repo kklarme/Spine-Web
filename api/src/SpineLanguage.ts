@@ -1,10 +1,8 @@
 export enum SpineLanguageBit {
-  None = 0,
   German = 1 << 0, // 1
   English = 1 << 1, // 2
   Polish = 1 << 2, // 4
   Russian = 1 << 3, // 8
-  Count = 1 << 4,
 }
 
 export enum Language {

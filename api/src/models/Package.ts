@@ -1,4 +1,4 @@
-import { unescapeHtml } from './utilities';
+import { unescapeHtml } from '../utilities';
 
 export interface RawPackage {
   PackageID: string;

@@ -1,4 +1,5 @@
-import { unescapeHtml } from './utilities';
+import { unescapeHtml } from '../utilities';
+import { SpineDate } from '../SpineDate';
 
 export interface RawReview {
   Username: string;
@@ -22,7 +23,7 @@ export class Review {
   constructor(review: RawReview) {
     this.username = unescapeHtml(review.Username);
     this.review = unescapeHtml(review.Rating);
-    this.date = new Date(); // TODO set based on review.Date
+    this.date = SpineDate.parseLegacySpineDate(review.Date);
     this.reviewDuration = parseInt(review.ReviewDuration);
     this.rating = parseInt(review.Rating) as ReviewRating;
     this.duration = parseInt(review.Duration);

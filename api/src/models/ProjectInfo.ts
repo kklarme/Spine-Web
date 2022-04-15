@@ -1,6 +1,7 @@
-import { parseSpineDate, unescapeHtml } from './utilities';
+import { unescapeHtml } from '../utilities';
 import { GameType } from './GameType';
-import { RawImage, Image } from './Image';
+import { Image, RawImage } from './Image';
+import { SpineDate } from '../SpineDate';
 
 export interface RawProjectInfo {
   Name: string;
@@ -37,12 +38,12 @@ export class ProjectInfo {
     this.description = projectInfo.Description;
     this.features = projectInfo.Features;
     this.spineFeatures = parseInt(projectInfo.SpineFeatures);
-    this.releaseDate = parseSpineDate(projectInfo.ReleaseDate);
+    this.releaseDate = SpineDate.parseDate(projectInfo.ReleaseDate);
     this.majorVersion = parseInt(projectInfo.MajorVersion);
     this.minorVersion = parseInt(projectInfo.MinorVersion);
     this.patchVersion = parseInt(projectInfo.PatchVersion);
     this.gameType = parseInt(projectInfo.GameType);
-    this.updateDate = parseSpineDate(projectInfo.UpdateDate);
+    this.updateDate = SpineDate.parseDate(projectInfo.UpdateDate);
     this.installAllowed = projectInfo.installAllowed === '1';
   }
 }

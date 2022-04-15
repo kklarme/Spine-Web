@@ -1,8 +1,10 @@
-import { parseSpineDate, unescapeHtml } from './utilities';
+import { unescapeHtml } from '../utilities';
 import { Package, RawPackage } from './Package';
-import { Language, SpineLanguage } from './SpineLanguage';
+import { Language, SpineLanguage } from '../SpineLanguage';
 import { GameType } from './GameType';
 import { ModType } from './ModType';
+import { SpineDate } from '../SpineDate';
+import { PlayedProject, RawPlayedProject } from './PlayedProject';
 
 export interface RawProject {
   ProjectID: string;
@@ -43,8 +45,13 @@ export class Project {
   updateDate: Date;
   language: Language;
   packages: Package[];
+  hasPlayed?: boolean;
 
-  constructor(project: RawProject, packages: Array<RawPackage | Package> = []) {
+  constructor(
+    project: RawProject,
+    packages: Array<RawPackage | Package> = [],
+    hasPlayed?: boolean,
+  ) {
     this.id = parseInt(project.ProjectID);
     this.name = unescapeHtml(project.Name);
     this.gameType = parseInt(project.GameType);
@@ -57,13 +64,13 @@ export class Project {
     this.supportedLanguages = SpineLanguage.languageMap[parseInt(project.SupportedLanguages)];
     this.teamId = parseInt(project.TeamID);
     this.teamName = project.TeamName ? unescapeHtml(project.TeamName) : undefined;
-    this.releaseDate = parseSpineDate(project.ReleaseDate);
-    this.version = `${project.MajorVersion}.${project.MinorVersion}.${project.PatchVersion}`;
+    this.releaseDate = SpineDate.parseDate(project.ReleaseDate);
+    this.version = [project.MajorVersion, project.MinorVersion, project.PatchVersion].join('.');
     this.spineVersion = parseInt(project.SpineVersion);
     this.devDuration = parseInt(project.DevDuration);
     this.avgDuration = parseInt(project.AvgDuration);
     this.downloadSize = parseInt(project.DownloadSize);
-    this.updateDate = parseSpineDate(project.UpdateDate);
+    this.updateDate = SpineDate.parseDate(project.UpdateDate);
     this.language = SpineLanguage.languageMap[parseInt(project.Language)][0];
     this.packages = packages.map((pkg) => {
       if (pkg instanceof Package) {
@@ -71,5 +78,6 @@ export class Project {
       }
       return new Package(pkg);
     });
+    this.hasPlayed = hasPlayed;
   }
 }
