@@ -10,6 +10,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: '/',
+        destination: '/projects',
+      },
+      {
         source: '/api/spine/:path*',
         destination: 'https://clockwork-origins.com:19181/:path*',
       },
