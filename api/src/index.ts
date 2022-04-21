@@ -1,11 +1,10 @@
 export const SUPPORTED_SPINE_VERSION = '1.39.0';
 
-export * from './dtos';
-export * from './models';
-export * from './responses';
+export * from './date';
+export * from './image';
+export * from './language';
+export * from './news';
+export * from './project';
+export * from './utilities';
 
 export * from './SpineApi';
-export * from './SpineDate';
-export * from './SpineLanguage';
-
-export * from './utilities';

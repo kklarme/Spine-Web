@@ -1,21 +1,25 @@
 import axios from 'axios';
 import { inflateRaw } from 'pako';
 import { merge } from './utilities';
-import { Language } from './SpineLanguage';
-import {
-  GetRatingsResponse,
-  GetReviewsResponse,
-  RequestAllNewsResponse,
-  RequestAllProjectsResponse,
-} from './responses';
-import { Credentials, Project, ProjectInfo, RawProjectInfo } from './models';
+import { Language } from './language';
 import {
   GetRatingsDto,
+  GetRatingsResponse,
   GetReviewsDto,
-  RequestAllNewsDto,
+  GetReviewsResponse,
+  Project,
+  ProjectInfo,
+  RawProjectInfo,
   RequestAllProjectsDto,
+  RequestAllProjectsResponse,
   RequestProjectInfoDto,
-} from './dtos';
+} from './project';
+import { RequestAllNewsDto, RequestAllNewsResponse } from './news';
+
+export interface Credentials {
+  username: string;
+  password: string;
+}
 
 export interface SpineApiConfig {
   serverUrl: string;

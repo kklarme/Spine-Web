@@ -1,7 +1,7 @@
-import { Image, RawImage } from './Image';
+import { Image, RawImage } from '../../image/Image';
 import { ProjectReference, RawProjectReference } from './ProjectReference';
-import { unescapeHtml } from '../utilities';
-import { SpineDate } from '../SpineDate';
+import { unescapeHtml } from '../../utilities';
+import { SpineDateUtils } from '../../date/SpineDateUtils';
 
 export interface RawNews {
   Title: string;
@@ -21,7 +21,7 @@ export class News {
   constructor(news: RawNews) {
     this.title = unescapeHtml(news.Title);
     this.body = unescapeHtml(news.Body);
-    this.timestamp = SpineDate.parseDate(news.Timestamp);
+    this.timestamp = SpineDateUtils.parseDate(news.Timestamp);
     this.projectReferences = (news.ProjectReferences || []).map(
       (projectReference) => new ProjectReference(projectReference),
     );

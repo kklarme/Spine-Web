@@ -1,34 +1,7 @@
-export enum SpineLanguageBit {
-  German = 1 << 0, // 1
-  English = 1 << 1, // 2
-  Polish = 1 << 2, // 4
-  Russian = 1 << 3, // 8
-}
+import { Language, LanguageMap } from './Language';
+import { LANGUAGE_BIT_MAP } from './constants';
 
-export enum Language {
-  German = 'de',
-  English = 'en',
-  Polish = 'pl',
-  Russian = 'ru',
-}
-
-export const LANGUAGE_BIT_MAP: Record<Language, SpineLanguageBit> = {
-  [Language.German]: SpineLanguageBit.German,
-  [Language.English]: SpineLanguageBit.English,
-  [Language.Polish]: SpineLanguageBit.Polish,
-  [Language.Russian]: SpineLanguageBit.Russian,
-};
-
-export const LANGUAGE_NAME_MAP: Record<Language, string> = {
-  [Language.German]: 'Deutsch',
-  [Language.English]: 'English',
-  [Language.Polish]: 'Polish',
-  [Language.Russian]: 'Russian',
-};
-
-export type LanguageMap = Record<string, Language[]>;
-
-export class SpineLanguage {
+export class SpineLanguageUtils {
   static get languageMap(): LanguageMap {
     return this.languageCombinations.reduce((languageMap: LanguageMap, languages) => {
       const bitValue = languages.reduce((bitVal, language) => {

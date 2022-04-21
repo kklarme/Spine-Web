@@ -1,5 +1,5 @@
-import { unescapeHtml } from '../utilities';
-import { SpineDate } from '../SpineDate';
+import { unescapeHtml } from '../../utilities';
+import { SpineDateUtils } from '../../date/SpineDateUtils';
 
 export interface RawNewsTicker {
   Type: string;
@@ -22,7 +22,7 @@ export class NewsTicker {
     this.type = parseInt(newsTicker.Type);
     this.projectId = parseInt(newsTicker.ProjectID);
     this.name = unescapeHtml(newsTicker.Name);
-    this.timestamp = SpineDate.parseDate(newsTicker.Timestamp);
+    this.timestamp = SpineDateUtils.parseDate(newsTicker.Timestamp);
     if (newsTicker.MajorVersion && newsTicker.MinorVersion && newsTicker.PatchVersion) {
       this.version = [
         newsTicker.MajorVersion,

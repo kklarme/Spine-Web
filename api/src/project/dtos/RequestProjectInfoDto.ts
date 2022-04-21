@@ -1,5 +1,5 @@
 import { RequestAllProjectsDto } from './RequestAllProjectsDto';
-import { Language } from '../SpineLanguage';
+import { Language } from '../../language/SpineLanguageUtils';
 
 export class RequestProjectInfoDto extends RequestAllProjectsDto {
   ProjectID: string | number;

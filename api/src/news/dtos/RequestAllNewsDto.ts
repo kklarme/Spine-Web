@@ -1,4 +1,4 @@
-import { Language, LANGUAGE_BIT_MAP, SpineLanguageBit } from '../SpineLanguage';
+import { Language, LANGUAGE_BIT_MAP, SpineLanguageBit } from '../../language/SpineLanguageUtils';
 
 export class RequestAllNewsDto {
   Language: SpineLanguageBit;

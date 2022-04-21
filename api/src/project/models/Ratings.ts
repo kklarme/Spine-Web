@@ -1,4 +1,4 @@
-import { GetRatingsResponse } from '../responses';
+import { GetRatingsResponse } from '../../responses';
 
 export class Ratings {
   rating1: number;
