@@ -7,8 +7,6 @@ import resources from '../translations';
 import DefaultLayout from '../layout/DefaultLayout';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import api from '../api';
-import {Language} from "spine-api";
 
 i18n.use(initReactI18next).init({
   resources,
