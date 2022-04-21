@@ -1,7 +1,7 @@
 import { unescapeHtml } from '../../utilities';
-import { SpineDateUtils } from '../../date/SpineDateUtils';
+import { SpineDateUtils } from '../../date';
 
-export interface RawReview {
+export interface SpineReview {
   Username: string;
   Review: string;
   Date: string; // ex: 448076
@@ -20,10 +20,10 @@ export class Review {
   rating: ReviewRating;
   duration: number;
 
-  constructor(review: RawReview) {
+  constructor(review: SpineReview) {
     this.username = unescapeHtml(review.Username);
     this.review = unescapeHtml(review.Rating);
-    this.date = SpineDateUtils.parseLegacySpineDate(review.Date);
+    this.date = SpineDateUtils.parseLegacyDate(review.Date);
     this.reviewDuration = parseInt(review.ReviewDuration);
     this.rating = parseInt(review.Rating) as ReviewRating;
     this.duration = parseInt(review.Duration);

@@ -1,7 +1,7 @@
 import { unescapeHtml } from '../../utilities';
-import { SpineDateUtils } from '../../date/SpineDateUtils';
+import { SpineDateUtils } from '../../date';
 
-export interface RawNewsTicker {
+export interface SpineNewsTicker {
   Type: string;
   ProjectID: string;
   Name: string;
@@ -18,7 +18,7 @@ export class NewsTicker {
   timestamp: Date;
   version?: string;
 
-  constructor(newsTicker: RawNewsTicker) {
+  constructor(newsTicker: SpineNewsTicker) {
     this.type = parseInt(newsTicker.Type);
     this.projectId = parseInt(newsTicker.ProjectID);
     this.name = unescapeHtml(newsTicker.Name);

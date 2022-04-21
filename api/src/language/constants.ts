@@ -1,11 +1,11 @@
 import { Language } from './Language';
-import { SpineLanguageBit } from './SpineLanguageBit';
+import { SpineLanguage } from './SpineLanguage';
 
-export const LANGUAGE_BIT_MAP: Record<Language, SpineLanguageBit> = {
-  [Language.German]: SpineLanguageBit.German,
-  [Language.English]: SpineLanguageBit.English,
-  [Language.Polish]: SpineLanguageBit.Polish,
-  [Language.Russian]: SpineLanguageBit.Russian,
+export const SPINE_LANGUAGE_MAP: Record<Language, SpineLanguage> = {
+  [Language.German]: SpineLanguage.German,
+  [Language.English]: SpineLanguage.English,
+  [Language.Polish]: SpineLanguage.Polish,
+  [Language.Russian]: SpineLanguage.Russian,
 };
 
 export const LANGUAGE_NAME_MAP: Record<Language, string> = {

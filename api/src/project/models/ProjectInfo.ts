@@ -1,11 +1,11 @@
 import { unescapeHtml } from '../../utilities';
 import { GameType } from './GameType';
-import { Image, RawImage } from '../../image/Image';
-import { SpineDateUtils } from '../../date/SpineDateUtils';
+import { Image, SpineImage } from '../../image';
+import { SpineDateUtils } from '../../date';
 
-export interface RawProjectInfo {
+export interface SpineProjectInfo {
   Name: string;
-  Screenshots?: RawImage[];
+  Screenshots?: SpineImage[];
   Description: string;
   Features?: string[];
   SpineFeatures: string;
@@ -32,7 +32,7 @@ export class ProjectInfo {
   updateDate: Date;
   installAllowed: boolean;
 
-  constructor(projectInfo: RawProjectInfo) {
+  constructor(projectInfo: SpineProjectInfo) {
     this.name = unescapeHtml(projectInfo.Name);
     this.screenshots = (projectInfo.Screenshots || []).map((screenshot) => new Image(screenshot));
     this.description = projectInfo.Description;

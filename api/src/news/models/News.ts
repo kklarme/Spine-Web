@@ -1,14 +1,14 @@
-import { Image, RawImage } from '../../image/Image';
-import { ProjectReference, RawProjectReference } from './ProjectReference';
+import { Image, SpineImage } from '../../image';
+import { ProjectReference, SpineProjectReference } from './ProjectReference';
 import { unescapeHtml } from '../../utilities';
-import { SpineDateUtils } from '../../date/SpineDateUtils';
+import { SpineDateUtils } from '../../date';
 
-export interface RawNews {
+export interface SpineNews {
   Title: string;
   Body: string;
   Timestamp: string;
-  ProjectReferences?: RawProjectReference[];
-  Images?: RawImage[];
+  ProjectReferences?: SpineProjectReference[];
+  Images?: SpineImage[];
 }
 
 export class News {
@@ -18,7 +18,7 @@ export class News {
   projectReferences: ProjectReference[];
   images: Image[];
 
-  constructor(news: RawNews) {
+  constructor(news: SpineNews) {
     this.title = unescapeHtml(news.Title);
     this.body = unescapeHtml(news.Body);
     this.timestamp = SpineDateUtils.parseDate(news.Timestamp);

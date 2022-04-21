@@ -1,11 +1,11 @@
-export interface RawPlayedProject {
+export interface SpinePlayedProject {
   ID: string;
 }
 
 export class PlayedProject {
   id: number;
 
-  constructor(playedProject: RawPlayedProject) {
+  constructor(playedProject: SpinePlayedProject) {
     this.id = parseInt(playedProject.ID);
   }
 }

@@ -1,5 +1,5 @@
-import {RawReview} from "../models";
+import { SpineReview } from '../models/Review';
 
 export interface GetReviewsResponse {
-    Reviews: RawReview[];
+  Reviews: SpineReview[];
 }

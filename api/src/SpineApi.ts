@@ -9,7 +9,7 @@ import {
   GetReviewsResponse,
   Project,
   ProjectInfo,
-  RawProjectInfo,
+  SpineProjectInfo,
   RequestAllProjectsDto,
   RequestAllProjectsResponse,
   RequestProjectInfoDto,
@@ -65,7 +65,7 @@ export class SpineApi {
   static async requestProjectInfo(
     id: string | number,
     config?: Partial<SpineApiConfig>,
-  ): Promise<RawProjectInfo> {
+  ): Promise<SpineProjectInfo> {
     const { serverUrl, credentials, language } = config
       ? merge(this.defaultConfig, config)
       : this.defaultConfig;
@@ -140,7 +140,7 @@ export class SpineApi {
     return SpineApi.getProjects(this.config);
   }
 
-  async requestProjectInfo(id: string | number): Promise<RawProjectInfo> {
+  async requestProjectInfo(id: string | number): Promise<SpineProjectInfo> {
     return SpineApi.requestProjectInfo(id, this.config);
   }
 

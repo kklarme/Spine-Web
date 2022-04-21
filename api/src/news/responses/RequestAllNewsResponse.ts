@@ -1,7 +1,7 @@
-import { RawNews } from '../models/News';
-import { RawNewsTicker } from '../models/NewsTicker';
+import { SpineNews } from '../models/News';
+import { SpineNewsTicker } from '../models/NewsTicker';
 
 export interface RequestAllNewsResponse {
-  News: RawNews[];
-  NewsTicker: RawNewsTicker[];
+  News: SpineNews[];
+  NewsTicker: SpineNewsTicker[];
 }

@@ -1,9 +1,9 @@
-import { Language, LANGUAGE_BIT_MAP, SpineLanguageBit } from '../../language/SpineLanguageUtils';
+import { Language, SPINE_LANGUAGE_MAP, SpineLanguage } from '../../language';
 
 export class RequestAllNewsDto {
-  Language: SpineLanguageBit;
+  Language: SpineLanguage;
 
-  constructor(language: Language | SpineLanguageBit) {
-    this.Language = typeof language === 'string' ? LANGUAGE_BIT_MAP[language] : language;
+  constructor(language: Language | SpineLanguage) {
+    this.Language = typeof language === 'string' ? SPINE_LANGUAGE_MAP[language] : language;
   }
 }

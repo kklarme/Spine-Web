@@ -1,4 +1,4 @@
-import { Language, LANGUAGE_NAME_MAP } from '../../language/SpineLanguageUtils';
+import { Language, LANGUAGE_NAME_MAP } from '../../language';
 
 export class RequestAllProjectsDto {
   Username: string | null;

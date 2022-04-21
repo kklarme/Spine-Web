@@ -1,9 +1,9 @@
-import { RawPackage } from '../models/Package';
-import { RawPlayedProject } from '../models/PlayedProject';
-import { RawProject } from '../models/Project';
+import { SpinePackage } from '../models/Package';
+import { SpinePlayedProject } from '../models/PlayedProject';
+import { SpineProject } from '../models/Project';
 
 export interface RequestAllProjectsResponse {
-    Projects: RawProject[];
-    PlayedProjects?: RawPlayedProject[];
-    Packages: RawPackage[];
+  Projects: SpineProject[];
+  PlayedProjects?: SpinePlayedProject[];
+  Packages: SpinePackage[];
 }

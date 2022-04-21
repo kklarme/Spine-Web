@@ -1,11 +1,11 @@
 import { Language, LanguageMap } from './Language';
-import { LANGUAGE_BIT_MAP } from './constants';
+import { SPINE_LANGUAGE_MAP } from './constants';
 
-export class SpineLanguageUtils {
+export class LanguageUtils {
   static get languageMap(): LanguageMap {
     return this.languageCombinations.reduce((languageMap: LanguageMap, languages) => {
       const bitValue = languages.reduce((bitVal, language) => {
-        bitVal = bitVal | LANGUAGE_BIT_MAP[language];
+        bitVal = bitVal | SPINE_LANGUAGE_MAP[language];
         return bitVal;
       }, 0);
       languageMap[bitValue] = languages;

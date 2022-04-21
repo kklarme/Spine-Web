@@ -1,6 +1,6 @@
 import { unescapeHtml } from '../../utilities';
 
-export interface RawPackage {
+export interface SpinePackage {
   PackageID: string;
   ProjectID: string;
   Name: string;
@@ -13,7 +13,7 @@ export class Package {
   name: string;
   language: string;
 
-  constructor(pkg: RawPackage) {
+  constructor(pkg: SpinePackage) {
     this.id = parseInt(pkg.PackageID);
     this.projectId = parseInt(pkg.ProjectID);
     this.name = unescapeHtml(pkg.Name);
