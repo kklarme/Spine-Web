@@ -69,9 +69,9 @@ export function EnumTypeFilter<T extends string | number>(props: EnumTypeFilterP
   console.log(props.columns, columnsClassName);
 
   return (
-    <div className={`flex flex-col border bg-gray-50 rounded ${props.className || ''}`}>
+    <div className={`flex flex-col border rounded shadow-sm ${props.className || ''}`}>
       <div
-        className={`flex items-center justify-center font-medium cursor-pointer py-1 px-2 bg-gray-100 lg:cursor-default lg:border-b ${
+        className={`flex items-center justify-center font-medium cursor-pointer py-1 px-2 bg-gray-100 shadow-sm lg:cursor-default lg:border-b ${
           isExpanded ? 'border-b' : ''
         }`}
         onClick={(e) => {
