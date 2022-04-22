@@ -1,4 +1,4 @@
-import { GameType, Language, LANGUAGE_BIT_MAP, ModType, Project } from 'spine-api';
+import {GameType, Language, ModType, Project, SPINE_LANGUAGE_MAP} from 'spine-api';
 import { createElement, FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { capitalizeWord, capitalizeWords, detectScrollbarHeight } from '../../utilities';
@@ -342,7 +342,7 @@ const ProjectTable: FC<ProjectTableProps> = (props) => {
             translationKey={'language'}
             filter={state.filters.find((filter) => filter.id === 'supportedLanguages')?.value}
             sortFilterValue={(a: Language, b: Language) => {
-              return LANGUAGE_BIT_MAP[a] - LANGUAGE_BIT_MAP[b];
+              return SPINE_LANGUAGE_MAP[a] - SPINE_LANGUAGE_MAP[b];
             }}
             setFilter={setFilter}
             onToggle={onToggleFilter}

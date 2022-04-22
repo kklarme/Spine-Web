@@ -42,10 +42,10 @@ export const getServerSideProps: GetServerSideProps<ProjectPageProps, { id: stri
   context,
 ) => {
   const projectId = context.params?.id || '';
-  const projectInfo = await SpineApi.getProjectInfo(projectId, {
+  const projectInfoResult = await SpineApi.getProjectInfo(projectId, {
     language: context.locale as Language,
   });
-  const projectInfoProp = ServerPropConverter.toServerProp(projectInfo);
+  const projectInfoProp = ServerPropConverter.toServerProp(projectInfoResult.value);
   return {
     props: {
       projectId: +projectId,

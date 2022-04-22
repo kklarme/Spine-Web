@@ -23,7 +23,7 @@ const ProjectsPage: NextPage = (props) => {
       language: i18n.language as Language,
     }).then((loadedProjects) => {
       setLoading(false);
-      setProjects(loadedProjects);
+      setProjects(loadedProjects.value);
     });
   }, [i18n.language]);
 

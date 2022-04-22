@@ -16,8 +16,9 @@ i18n.use(initReactI18next).init({
 function MyApp({ Component, pageProps }: AppProps) {
   const { locale } = useRouter();
   useEffect(() => {
-    i18n.changeLanguage(locale).then(() => {});
-    // make sure to await the language change
+    i18n.changeLanguage(locale).then(() => {
+      // make sure to await the language change
+    });
   }, [locale]);
 
   return (

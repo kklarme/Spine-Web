@@ -2,11 +2,9 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import { News, Project } from 'spine-api';
+import { News } from 'spine-api';
 
-export interface NewsPageProps {}
-
-const NewsPage: NextPage<NewsPageProps> = (props) => {
+const NewsPage: NextPage = (props) => {
   const { i18n } = useTranslation();
   const [isLoading, setLoading] = useState(true);
   const [news, setNews] = useState<News[]>([]);
