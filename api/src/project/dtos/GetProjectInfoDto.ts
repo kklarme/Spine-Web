@@ -1,7 +1,7 @@
 import { Language } from '../../language';
-import { RequestAllProjectsDto } from './RequestAllProjectsDto';
+import { GetProjectsDto } from './GetProjectsDto';
 
-export class RequestProjectInfoDto extends RequestAllProjectsDto {
+export class GetProjectInfoDto extends GetProjectsDto {
   ProjectID: string | number;
 
   constructor(

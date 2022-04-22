@@ -1,6 +1,6 @@
 import { Language, LANGUAGE_NAME_MAP } from '../../language';
 
-export class RequestAllProjectsDto {
+export class GetProjectsDto {
   Username: string | null;
   Password: string | null;
   Language: string;

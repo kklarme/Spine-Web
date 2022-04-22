@@ -1,6 +1,6 @@
 import { Language, SPINE_LANGUAGE_MAP, SpineLanguage } from '../../language';
 
-export class RequestAllNewsDto {
+export class GetNewsDto {
   Language: SpineLanguage;
 
   constructor(language: Language | SpineLanguage) {

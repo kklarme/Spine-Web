@@ -3,18 +3,20 @@ import { inflateRaw } from 'pako';
 import { merge } from './utilities';
 import { Language } from './language';
 import {
+  GetProjectInfoDto,
+  GetProjectInfoResult,
+  GetProjectsDto,
+  GetProjectsResponse,
+  GetProjectsResult,
   GetRatingsDto,
   GetRatingsResponse,
+  GetRatingsResult,
   GetReviewsDto,
   GetReviewsResponse,
-  Project,
-  ProjectInfo,
+  GetReviewsResult,
   SpineProjectInfo,
-  RequestAllProjectsDto,
-  RequestAllProjectsResponse,
-  RequestProjectInfoDto,
 } from './project';
-import { RequestAllNewsDto, RequestAllNewsResponse } from './news';
+import { GetNewsDto, GetNewsResponse, GetNewsResult } from './news';
 
 export interface Credentials {
   username: string;
@@ -37,78 +39,62 @@ export class SpineApi {
     language: Language.German,
   };
 
-  static async requestAllProjects(
-    config?: Partial<SpineApiConfig>,
-  ): Promise<RequestAllProjectsResponse> {
+  static async getProjects(config?: Partial<SpineApiConfig>): Promise<GetProjectsResult> {
     const { serverUrl, credentials, language } = config
       ? merge(this.defaultConfig, config)
       : this.defaultConfig;
-    const response = await axios.post(
+    const response = await axios.post<GetProjectsResponse>(
       `${serverUrl}/requestAllProjects`,
-      new RequestAllProjectsDto(credentials.username, credentials.password, language),
+      new GetProjectsDto(credentials.username, credentials.password, language),
     );
-    return response.data;
-  }
-
-  static async getProjects(config?: Partial<SpineApiConfig>): Promise<Project[]> {
-    const response = await this.requestAllProjects(config);
-    return response.Projects.map(
-      (project) =>
-        new Project(
-          project,
-          response.Packages.filter((pkg) => pkg.ProjectID === project.ProjectID),
-          response.PlayedProjects?.some((playedProject) => project.ProjectID === playedProject.ID),
-        ),
-    );
-  }
-
-  static async requestProjectInfo(
-    id: string | number,
-    config?: Partial<SpineApiConfig>,
-  ): Promise<SpineProjectInfo> {
-    const { serverUrl, credentials, language } = config
-      ? merge(this.defaultConfig, config)
-      : this.defaultConfig;
-    const response = await axios.post(
-      `${serverUrl}/requestInfoPage`,
-      new RequestProjectInfoDto(id, credentials.username, credentials.password, language),
-    );
-    return response.data;
+    return new GetProjectsResult(response.data);
   }
 
   static async getProjectInfo(
-    id: string | number,
+    projectId: string | number,
     config?: Partial<SpineApiConfig>,
-  ): Promise<ProjectInfo> {
-    const projectInfo = await this.requestProjectInfo(id, config);
-    return new ProjectInfo(projectInfo);
+  ): Promise<GetProjectInfoResult> {
+    const { serverUrl, credentials, language } = config
+      ? merge(this.defaultConfig, config)
+      : this.defaultConfig;
+    const response = await axios.post<SpineProjectInfo>(
+      `${serverUrl}/requestInfoPage`,
+      new GetProjectInfoDto(projectId, credentials.username, credentials.password, language),
+    );
+    return new GetProjectInfoResult(response.data);
   }
 
-  static async requestAllNews(config?: Partial<SpineApiConfig>): Promise<RequestAllNewsResponse> {
+  static async getNews(config?: Partial<SpineApiConfig>): Promise<GetNewsResult> {
     const { serverUrl, language } = config ? merge(this.defaultConfig, config) : this.defaultConfig;
-    const response = await axios.post(
+    const response = await axios.post<GetNewsResponse>(
       `${serverUrl}/requestAllNews`,
-      new RequestAllNewsDto(language),
+      new GetNewsDto(language),
     );
-    return response.data;
+    return new GetNewsResult(response.data);
   }
 
   static async getRatings(
-    id: string | number,
+    projectId: string | number,
     config?: Partial<SpineApiConfig>,
-  ): Promise<GetRatingsResponse> {
+  ): Promise<GetRatingsResult> {
     const { serverUrl } = config ? merge(this.defaultConfig, config) : this.defaultConfig;
-    const response = await axios.post(`${serverUrl}/getRatings`, new GetRatingsDto(id));
-    return response.data;
+    const response = await axios.post<GetRatingsResponse>(
+      `${serverUrl}/getRatings`,
+      new GetRatingsDto(projectId),
+    );
+    return new GetRatingsResult(response.data);
   }
 
   static async getReviews(
-    id: string | number,
+    projectId: string | number,
     config?: Partial<SpineApiConfig>,
-  ): Promise<GetReviewsResponse> {
+  ): Promise<GetReviewsResult> {
     const { serverUrl } = config ? merge(this.defaultConfig, config) : this.defaultConfig;
-    const response = await axios.post(`${serverUrl}/getReviews`, new GetReviewsDto(id));
-    return response.data;
+    const response = await axios.post<GetReviewsResponse>(
+      `${serverUrl}/getReviews`,
+      new GetReviewsDto(projectId),
+    );
+    return new GetReviewsResult(response.data);
   }
 
   static async loadImage(url: string): Promise<Uint8Array> {
@@ -132,32 +118,24 @@ export class SpineApi {
     this.config = config ? merge(defaultConfig, config) : defaultConfig;
   }
 
-  async requestAllProjects(): Promise<RequestAllProjectsResponse> {
-    return SpineApi.requestAllProjects(this.config);
-  }
-
-  async getProjects(): Promise<Project[]> {
+  async getProjects(): Promise<GetProjectsResult> {
     return SpineApi.getProjects(this.config);
   }
 
-  async requestProjectInfo(id: string | number): Promise<SpineProjectInfo> {
-    return SpineApi.requestProjectInfo(id, this.config);
+  async getProjectInfo(projectId: string | number): Promise<GetProjectInfoResult> {
+    return SpineApi.getProjectInfo(projectId, this.config);
   }
 
-  async getProjectInfo(id: string | number): Promise<ProjectInfo> {
-    return SpineApi.getProjectInfo(id, this.config);
+  async getNews(): Promise<GetNewsResult> {
+    return SpineApi.getNews(this.config);
   }
 
-  async requestAllNews(): Promise<RequestAllNewsResponse> {
-    return SpineApi.requestAllNews(this.config);
+  async getRatings(projectId: string | number): Promise<GetRatingsResult> {
+    return SpineApi.getRatings(projectId);
   }
 
-  async getRatings(id: string | number): Promise<GetRatingsResponse> {
-    return SpineApi.getRatings(id);
-  }
-
-  async getReviews(id: string | number): Promise<GetReviewsResponse> {
-    return SpineApi.getReviews(id);
+  async getReviews(projectId: string | number): Promise<GetReviewsResult> {
+    return SpineApi.getReviews(projectId);
   }
 
   async loadImage(url: string): Promise<Uint8Array> {
