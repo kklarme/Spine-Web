@@ -37,7 +37,11 @@ export interface EnumTypeFilterProps<T extends string | number> {
 export function EnumTypeFilter<T extends string | number>(props: EnumTypeFilterProps<T>) {
   const [isExpanded, setExpanded] = useState(false);
   const { t } = useTranslation();
-  const onChange = (e: FormEvent<HTMLInputElement>) => {
+  const enumValues = Object.values(props.enum).filter((value) =>
+    props.isNumberEnum ? typeof value === 'number' : typeof value === 'string',
+  );
+
+  const onChangeFilter = (e: FormEvent<HTMLInputElement>) => {
     props.setFilter(props.columnId, (filterValues?: T[]) => {
       filterValues = filterValues?.slice() || [];
       const input = e.target as HTMLInputElement;
@@ -66,12 +70,16 @@ export function EnumTypeFilter<T extends string | number>(props: EnumTypeFilterP
       ? `columns-${props.columns}`
       : columnsToClassName(props.columns);
 
-  console.log(props.columns, columnsClassName);
-
+  const allChecked = (props.filter || []).length === enumValues.length;
+  const onChangeAll = (e: FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    props.setFilter(props.columnId, allChecked ? undefined : enumValues);
+  };
   return (
     <div className={`flex flex-col border rounded shadow-sm ${props.className || ''}`}>
       <div
-        className={`flex items-center justify-center font-medium cursor-pointer py-1 px-2 bg-gray-100 shadow-sm lg:cursor-default lg:border-b ${
+        className={`flex items-center justify-between py-1 px-4 bg-gray-100 shadow-sm lg:border-b ${
           isExpanded ? 'border-b' : ''
         }`}
         onClick={(e) => {
@@ -80,45 +88,47 @@ export function EnumTypeFilter<T extends string | number>(props: EnumTypeFilterP
           props.onToggle?.(isExpanded);
         }}
       >
-        <span>{props.header}</span>
-        {createElement(isExpanded ? ChevronUpIcon : ChevronDownIcon, {
-          className: 'w-5 h-5 lg:hidden',
-        })}
+        <div>
+          <input title="Toggle all" type="checkbox" checked={allChecked} onChange={onChangeAll} />
+        </div>
+        <div className="flex items-center font-medium cursor-pointer lg:cursor-default">
+          <span>{props.header}</span>
+          {createElement(isExpanded ? ChevronUpIcon : ChevronDownIcon, {
+            className: 'w-5 h-5 lg:hidden',
+          })}
+        </div>
+        <div />
       </div>
       <div
         className={`py-1 px-4 flex-grow lg:block ${columnsClassName} ${isExpanded ? '' : 'hidden'}`}
       >
-        {Object.values(props.enum)
-          .filter((value) =>
-            props.isNumberEnum ? typeof value === 'number' : typeof value === 'string',
-          )
-          .map((value) => {
-            const id = `${props.columnId}_${value}_input`;
-            return (
-              <span
-                key={value}
-                className={`flex items-center space-x-1`}
-                title={t(`${props.translationKey || props.columnId}.${value}`)}
-              >
-                <input
-                  id={id}
-                  type="checkbox"
-                  className="rounded"
-                  checked={props.filter?.includes(value as T) ?? false}
-                  value={value}
-                  onChange={onChange}
-                />
-                <label htmlFor={id} className="text-gray-600 truncate">
-                  {props.label
-                    ? createElement(props.label, {
-                        columnId: props.columnId,
-                        value,
-                      })
-                    : t(`${props.translationKey || props.columnId}.${value}`)}
-                </label>
-              </span>
-            );
-          })}
+        {enumValues.map((value) => {
+          const id = `${props.columnId}_${value}_input`;
+          return (
+            <span
+              key={value}
+              className={`flex items-center space-x-1`}
+              title={t(`${props.translationKey || props.columnId}.${value}`)}
+            >
+              <input
+                id={id}
+                type="checkbox"
+                className="rounded"
+                checked={props.filter?.includes(value as T) ?? false}
+                value={value}
+                onChange={onChangeFilter}
+              />
+              <label htmlFor={id} className="text-gray-600 truncate">
+                {props.label
+                  ? createElement(props.label, {
+                      columnId: props.columnId,
+                      value,
+                    })
+                  : t(`${props.translationKey || props.columnId}.${value}`)}
+              </label>
+            </span>
+          );
+        })}
       </div>
     </div>
   );
