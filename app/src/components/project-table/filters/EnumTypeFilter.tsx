@@ -93,11 +93,13 @@ export function EnumTypeFilter<T extends string | number>(props: EnumTypeFilterP
         </div>
         <div className="flex items-center font-medium cursor-pointer lg:cursor-default">
           <span>{props.header}</span>
+
+        </div>
+        <div>
           {createElement(isExpanded ? ChevronUpIcon : ChevronDownIcon, {
             className: 'w-5 h-5 lg:hidden',
           })}
         </div>
-        <div />
       </div>
       <div
         className={`py-1 px-4 flex-grow lg:block ${columnsClassName} ${isExpanded ? '' : 'hidden'}`}
