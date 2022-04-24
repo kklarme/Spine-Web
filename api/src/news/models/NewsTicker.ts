@@ -11,8 +11,13 @@ export interface SpineNewsTicker {
   PatchVersion?: string;
 }
 
+export enum NewsTickerType {
+  Update,
+  Release,
+}
+
 export class NewsTicker {
-  type: number;
+  type: NewsTickerType;
   projectId: number;
   name: string;
   timestamp: Date;
