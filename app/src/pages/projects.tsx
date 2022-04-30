@@ -25,10 +25,13 @@ const ProjectsPage: NextPage = () => {
     SpineApi.getProjects({
       serverUrl: SERVER_URL,
       language: i18n.language as Language,
-    }).then((loadedProjects) => {
-      setLoading(false);
-      setProjects(loadedProjects.value);
-    });
+    })
+      .then((getProjectsResult) => {
+        setProjects(getProjectsResult.value);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [i18n.language]);
 
   return (
