@@ -104,11 +104,15 @@ export class SpineApi {
       responseEncoding: 'binary',
     });
     const responseBuffer = this.convertBinaryToBuffer(response.data);
+    return this.decompressImage(responseBuffer);
+  }
+
+  static decompressImage(imageBuffer: Uint8Array): Uint8Array {
     // zlib seems to add two bytes to the start of the buffer that can't be handled by nodejs/pako
     // these two bytes are probably a header but none of the nodejs/pako methods seem to be able to handle that
     // therefore these two bytes are simply omitted
-    // copy everything but the first two bytes into buffer
-    const buffer = new Uint8Array(responseBuffer.buffer, 2, responseBuffer.byteLength - 2);
+    // -> copy everything but the first two bytes into buffer
+    const buffer = new Uint8Array(imageBuffer.buffer, 2, imageBuffer.byteLength - 2);
     // lastly we want to decompress the buffer
     return inflateRaw(buffer);
   }
