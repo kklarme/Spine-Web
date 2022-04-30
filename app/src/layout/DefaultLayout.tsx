@@ -49,8 +49,7 @@ const DefaultLayout: FC = (props) => {
 
         <LanguageSelect language={router.locale as Language} setLanguage={setLanguage} />
       </div>
-      {/* for overflow flex container add below: flex flex-col min-h-0 overflow-auto */}
-      {props.children}
+      <div className="flex flex-col min-h-0 overflow-auto flex-grow">{props.children}</div>
     </div>
   );
 };
