@@ -1,17 +1,21 @@
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
-import { ServerProjectInfoProp, ServerPropConverter } from '../../ServerPropConverter';
 import { useMemo } from 'react';
-import { Language, SpineApi } from 'spine-api';
+import { Language, ProjectInfo, SpineApi } from 'spine-api';
+import { Serialize } from '../../types';
 
 export interface ProjectPageProps {
   projectId: number;
-  projectInfo: ServerProjectInfoProp;
+  projectInfo: Serialize<ProjectInfo>;
 }
 
 const ProjectPage: NextPage<ProjectPageProps> = (props) => {
-  const projectInfo = useMemo(
-    () => ServerPropConverter.toProjectInfo(props.projectInfo),
+  const projectInfo = useMemo<ProjectInfo>(
+    () => ({
+      ...props.projectInfo,
+      updateDate: new Date(props.projectInfo.updateDate),
+      releaseDate: new Date(props.projectInfo.releaseDate),
+    }),
     [props.projectInfo],
   );
 
@@ -27,7 +31,7 @@ const ProjectPage: NextPage<ProjectPageProps> = (props) => {
             <img
               className="flex-1"
               key={index}
-              src={`/api/screenshots/${props.projectId}/${screenshot.file}`}
+              src={`/api/images/mods/${props.projectId}/screens/${screenshot.file}`}
             />
           ))}
         </div>
@@ -45,7 +49,11 @@ export const getServerSideProps: GetServerSideProps<ProjectPageProps, { id: stri
   const projectInfoResult = await SpineApi.getProjectInfo(projectId, {
     language: context.locale as Language,
   });
-  const projectInfoProp = ServerPropConverter.toServerProp(projectInfoResult.value);
+  const projectInfoProp: Serialize<ProjectInfo> = {
+    ...projectInfoResult.value,
+    updateDate: projectInfoResult.value.updateDate.toISOString(),
+    releaseDate: projectInfoResult.value.releaseDate.toISOString(),
+  };
   return {
     props: {
       projectId: +projectId,
