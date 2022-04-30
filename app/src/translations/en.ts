@@ -29,6 +29,10 @@ export default {
     5: 'Multiplayer',
     7: 'Demo',
   },
+  newsTickerType: {
+    0: 'Update',
+    1: 'Release',
+  },
   project: {
     id: 'id',
     name: 'name',
