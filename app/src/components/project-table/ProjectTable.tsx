@@ -1,7 +1,7 @@
-import {GameType, Language, ModType, Project, SPINE_LANGUAGE_MAP} from 'spine-api';
+import { GameType, Language, ModType, Project, SPINE_LANGUAGE_MAP } from 'spine-api';
 import { createElement, FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { capitalizeWord, capitalizeWords, detectScrollbarHeight } from '../../utilities';
+import { capitalizeWord, capitalizeWords } from '../../utilities';
 import {
   CellProps,
   Column,
@@ -32,6 +32,18 @@ import ModTypeCell from './cells/ModTypeCell';
 import GameTypeCell from './cells/GameTypeCell';
 import EnumTypeFilter from './filters/EnumTypeFilter';
 import { LANGUAGE_COUNTRY_FLAG_MAP } from '../../constants';
+
+function detectScrollbarHeight(): number {
+  const scrollDiv = document.createElement('div');
+  scrollDiv.setAttribute(
+    'style',
+    'width: 100px; height: 100px; overflow: scroll; position:absolute; right:-9999px;',
+  );
+  document.body.appendChild(scrollDiv);
+  const scrollbarHeight = scrollDiv.offsetHeight - scrollDiv.clientHeight;
+  document.body.removeChild(scrollDiv);
+  return scrollbarHeight;
+}
 
 export type ProjectCellProps<V = any> = CellProps<Project, V> & { t: TFunction };
 

@@ -1,8 +1,19 @@
 import { createElement, forwardRef, useMemo } from 'react';
 import { HeaderGroup } from 'react-table';
 import { Project } from 'spine-api';
-import { detectScrollbarWidth } from '../../utilities';
 import { SortAscendingIcon, SortDescendingIcon } from '@heroicons/react/solid';
+
+function detectScrollbarWidth(): number {
+  const scrollDiv = document.createElement('div');
+  scrollDiv.setAttribute(
+    'style',
+    'width: 100px; height: 100px; overflow: scroll; position:absolute; top:-9999px;',
+  );
+  document.body.appendChild(scrollDiv);
+  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+  document.body.removeChild(scrollDiv);
+  return scrollbarWidth;
+}
 
 export interface ProjectTableHeadProps {
   headerGroups: HeaderGroup<Project>[];
@@ -19,7 +30,11 @@ const ProjectTableHeader = forwardRef<HTMLDivElement, ProjectTableHeadProps>((pr
         <div {...headerGroup.getHeaderGroupProps()} className="tr">
           {headerGroup.headers.map((column) => (
             // eslint-disable-next-line react/jsx-key
-            <div {...column.getHeaderProps()} className="th border-r h-12" title={column.Header as string}>
+            <div
+              {...column.getHeaderProps()}
+              className="th border-r h-12"
+              title={column.Header as string}
+            >
               <div
                 {...column.getSortByToggleProps()}
                 title={undefined}
