@@ -93,7 +93,6 @@ export function EnumTypeFilter<T extends string | number>(props: EnumTypeFilterP
         </div>
         <div className="flex items-center font-medium cursor-pointer lg:cursor-default">
           <span>{props.header}</span>
-
         </div>
         <div>
           {createElement(isExpanded ? ChevronUpIcon : ChevronDownIcon, {
@@ -109,7 +108,7 @@ export function EnumTypeFilter<T extends string | number>(props: EnumTypeFilterP
           return (
             <span
               key={value}
-              className={`flex items-center space-x-1`}
+              className={`flex items-center space-x-2`}
               title={t(`${props.translationKey || props.columnId}.${value}`)}
             >
               <input
