@@ -1,15 +1,15 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import { Language, News, NewsTicker, SpineApi } from 'spine-api';
+import { News, NewsTicker } from 'spine-api';
 import LoadOverlay from '../components/LoadOverlay';
 import NewsTickerList from '../components/news-ticker-list/NewsTickerList';
 import NewsList from '../components/news-list/NewsList';
-import { SERVER_URL } from '../constants';
+import { useSpineApi } from '../hooks/spine-api';
 
 const NewsPage: NextPage = () => {
-  const { i18n } = useTranslation();
+  const spineApi = useSpineApi();
+
   const [isLoading, setLoading] = useState(true);
   const [news, setNews] = useState<News[]>([]);
   const [newsTickers, setNewsTickers] = useState<NewsTicker[]>([]);
@@ -18,18 +18,16 @@ const NewsPage: NextPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    SpineApi.getNews({
-      serverUrl: SERVER_URL,
-      language: i18n.language as Language,
-    })
-      .then((getNewsResult) => {
-        setNews(getNewsResult.value.news);
-        setNewsTickers(getNewsResult.value.newsTicker);
+    spineApi
+      .getNews()
+      .then((result) => {
+        setNews(result.value.news);
+        setNewsTickers(result.value.newsTicker);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [i18n.language]);
+  }, [spineApi]);
 
   return (
     <div className="flex flex-col min-h-0 flex-grow">
