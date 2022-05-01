@@ -9,7 +9,11 @@ export interface GlobalFilterProps {
   setGlobalFilter: (filter: string) => void;
 }
 
-const GlobalFilter: FC<GlobalFilterProps> = ({ preFilteredRows, globalFilter, setGlobalFilter }) => {
+const GlobalFilter: FC<GlobalFilterProps> = ({
+  preFilteredRows,
+  globalFilter,
+  setGlobalFilter,
+}) => {
   const count = preFilteredRows.length;
   const [value, setValue] = useState(globalFilter);
   const onChange = useAsyncDebounce((value) => {

@@ -1,4 +1,4 @@
-import { DOMAttributes, FC, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
 import { News } from 'spine-api';
 
 export interface NewsListItemProps {
