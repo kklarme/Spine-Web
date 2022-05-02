@@ -37,19 +37,21 @@ const NewsPage: NextPage = () => {
 
       <main className="h-full p-4">
         {isLoading && <LoadOverlay />}
-        <div className="">
-          <div className="mb-2">
+        <div className="lg:flex space-y-3 lg:space-y-0 lg:space-x-6">
+          <div className="mb-2 lg:w-1/3">
             <button
-              className="leading-none text-accent underline underline-offset-2"
+              className="leading-none text-accent underline underline-offset-2 mb-2 lg:hidden"
               onClick={() => setNewsTickerExpanded(!isNewsTickerExpanded)}
             >
               {isNewsTickerExpanded ? 'Hide' : 'Show'} news ticker
             </button>
-            <div className={`${isNewsTickerExpanded ? 'block' : 'hidden'} mt-2`}>
+            <div className={`${isNewsTickerExpanded ? 'block' : 'hidden'} lg:block`}>
               <NewsTickerList newsTickers={newsTickers} />
             </div>
           </div>
-          <NewsList news={news} />
+          <div className="lg:w-2/3 pb-6">
+            <NewsList news={news} />
+          </div>
         </div>
       </main>
     </div>
