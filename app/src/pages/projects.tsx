@@ -7,7 +7,7 @@ import LoadOverlay from '../components/LoadOverlay';
 import { useSpineApi } from '../hooks/spine-api';
 
 // Render project table only on client because we need window and document for correct dimension calculation
-const DynamicProjectListWithoutSSR = dynamic(
+const DynamicProjectTableWithoutSSR = dynamic(
   () => import('../components/project-table/ProjectTable'),
   {
     ssr: false,
@@ -39,7 +39,7 @@ const ProjectsPage: NextPage = () => {
 
       <main className="h-full">
         {isLoading && <LoadOverlay />}
-        <DynamicProjectListWithoutSSR projects={projects} />
+        <DynamicProjectTableWithoutSSR projects={projects} />
       </main>
     </div>
   );
