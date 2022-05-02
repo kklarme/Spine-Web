@@ -3,7 +3,7 @@ import { createElement, FC } from 'react';
 import { LANGUAGE_COUNTRY_FLAG_MAP } from '../constants';
 
 export interface LanguageSelectProps {
-  language: Language;
+  language: Language | undefined;
   setLanguage: (language: Language) => void;
   components?: Record<Language, JSX.Element>;
 }
@@ -13,7 +13,7 @@ const LanguageSelect: FC<LanguageSelectProps> = (props) => {
   return (
     <div className="flex items-center space-x-2">
       {Object.entries(components).map(([language, flagComponent]) => {
-        const isActive = props.language.split('-')[0] === language;
+        const isActive = props.language?.split('-')[0] === language;
         return (
           <button
             className={`flex items-center h-6 border-b-2 ${
