@@ -40,7 +40,7 @@ const NewsPage: NextPage = () => {
         <div className="lg:flex space-y-3 lg:space-y-0 lg:space-x-6">
           <div className="mb-2 lg:w-1/3">
             <button
-              className="leading-none text-accent underline underline-offset-2 mb-2 lg:hidden"
+              className="leading-none text-accent-light underline underline-offset-2 mb-2 lg:hidden"
               onClick={() => setNewsTickerExpanded(!isNewsTickerExpanded)}
             >
               {isNewsTickerExpanded ? 'Hide' : 'Show'} news ticker

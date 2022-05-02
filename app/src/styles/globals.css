@@ -25,5 +25,12 @@
   }
 }
 
-.__required_classes {
+.prose {
+  & a {
+    @apply text-accent-light hover:text-accent-dark;
+  }
+
+  & ul {
+    @apply list-inside list-disc;
+  }
 }

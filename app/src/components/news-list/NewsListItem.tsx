@@ -16,10 +16,10 @@ function sanitizeBody(body: string): string {
 
 const NewsListItem: FC<NewsListItemProps> = ({ newsEntry }) => {
   return (
-    <article className="border rounded-md bg-gray-100">
-      <header className="border-b px-6 py-3 flex items-center justify-between space-x-6">
-          <h3 className="text-lg font-bold">{newsEntry.title}</h3>
-          <span className="text-gray-600 text-xs">{newsEntry.timestamp.toLocaleDateString()}</span>
+    <article className="border rounded shadow-sm">
+      <header className="bg-gray-100 border-b px-6 py-3 flex items-center justify-between space-x-6">
+        <h3 className="text-lg font-bold">{newsEntry.title}</h3>
+        <span className="text-gray-600 text-xs">{newsEntry.timestamp.toLocaleDateString()}</span>
       </header>
       <section className="px-6 py-3">
         {!!newsEntry.images.length && (
@@ -29,7 +29,10 @@ const NewsListItem: FC<NewsListItemProps> = ({ newsEntry }) => {
             alt={newsEntry.title}
           />
         )}
-        <p className="overflow-x-auto" dangerouslySetInnerHTML={{ __html: sanitizeBody(newsEntry.body) }} />
+        <p
+          className="overflow-x-auto prose"
+          dangerouslySetInnerHTML={{ __html: sanitizeBody(newsEntry.body) }}
+        />
       </section>
     </article>
   );

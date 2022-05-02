@@ -79,7 +79,7 @@ export function EnumTypeFilter<T extends string | number>(props: EnumTypeFilterP
   return (
     <div className={`flex flex-col border rounded shadow-sm ${props.className || ''}`}>
       <div
-        className={`flex items-center justify-between py-1 px-4 bg-gray-100 shadow-sm lg:border-b ${
+        className={`flex items-center justify-between py-1 px-3 bg-gray-100 lg:border-b ${
           isExpanded ? 'border-b' : ''
         }`}
         onClick={(e) => {
@@ -101,7 +101,7 @@ export function EnumTypeFilter<T extends string | number>(props: EnumTypeFilterP
         </div>
       </div>
       <div
-        className={`py-1 px-4 flex-grow lg:block ${columnsClassName} ${isExpanded ? '' : 'hidden'}`}
+        className={`py-1 px-3 flex-grow lg:block ${columnsClassName} ${isExpanded ? '' : 'hidden'}`}
       >
         {enumValues.map((value) => {
           const id = `${props.columnId}_${value}_input`;
