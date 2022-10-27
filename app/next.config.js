@@ -10,8 +10,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/',
-        destination: '/projects',
+        source: '/news',
+        destination: '/',
       },
       {
         source: '/api/spine/:path*',

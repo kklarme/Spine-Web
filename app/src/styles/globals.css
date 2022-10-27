@@ -33,4 +33,8 @@
   & ul {
     @apply list-inside list-disc;
   }
+
+  & p + p {
+    @apply mt-2;
+  }
 }

@@ -2,25 +2,21 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useMemo } from 'react';
 import { Language, ProjectInfo, SpineApi } from 'spine-api';
-import { Serialize } from '../../types';
+import { modelFromServerSideProp, ServerSideProp, modelToServerSideProp } from '../../utilities';
 
 export interface ProjectPageProps {
   projectId: number;
-  projectInfo: Serialize<ProjectInfo>;
+  projectInfo: ServerSideProp<ProjectInfo>;
 }
 
 const ProjectPage: NextPage<ProjectPageProps> = (props) => {
   const projectInfo = useMemo<ProjectInfo>(
-    () => ({
-      ...props.projectInfo,
-      updateDate: new Date(props.projectInfo.updateDate),
-      releaseDate: new Date(props.projectInfo.releaseDate),
-    }),
+    () => modelFromServerSideProp(props.projectInfo),
     [props.projectInfo],
   );
 
   return (
-    <div className="flex flex-col min-h-0 flex-grow">
+    <div className="flex flex-col min-h-0 flex-grow overflow-auto">
       <Head>
         <title>Spine Web - {projectInfo.name}</title>
       </Head>
@@ -49,15 +45,10 @@ export const getServerSideProps: GetServerSideProps<ProjectPageProps, { id: stri
   const projectInfoResult = await SpineApi.getProjectInfo(projectId, {
     language: context.locale as Language,
   });
-  const projectInfoProp: Serialize<ProjectInfo> = {
-    ...projectInfoResult.value,
-    updateDate: projectInfoResult.value.updateDate.toISOString(),
-    releaseDate: projectInfoResult.value.releaseDate.toISOString(),
-  };
   return {
     props: {
       projectId: +projectId,
-      projectInfo: projectInfoProp,
+      projectInfo: modelToServerSideProp(projectInfoResult.value),
     },
   };
 };

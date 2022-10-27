@@ -14,7 +14,7 @@ const DynamicProjectTableWithoutSSR = dynamic(
   },
 );
 
-const ProjectsPage: NextPage = () => {
+const ModsPage: NextPage = () => {
   const spineApi = useSpineApi();
   const [isLoading, setLoading] = useState(true);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -32,9 +32,9 @@ const ProjectsPage: NextPage = () => {
   }, [spineApi]);
 
   return (
-    <div className="flex flex-col min-h-0 flex-grow">
+    <div className="flex flex-col min-h-0 flex-grow overflow-auto">
       <Head>
-        <title>Spine Web - Projects</title>
+        <title>Spine Web - Mods</title>
       </Head>
 
       <main className="h-full">
@@ -45,4 +45,4 @@ const ProjectsPage: NextPage = () => {
   );
 };
 
-export default ProjectsPage;
+export default ModsPage;

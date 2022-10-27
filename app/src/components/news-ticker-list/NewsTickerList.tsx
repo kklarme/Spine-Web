@@ -8,11 +8,11 @@ export interface NewsTickerListProps {
 
 const NewsTickerList: FC<NewsTickerListProps> = (props) => {
   return (
-    <ul>
+    <div className="divide-y border-t border-b">
       {props.newsTickers.map((newsTicker, index) => (
         <NewsTickerListItem key={index} newsTicker={newsTicker} />
       ))}
-    </ul>
+    </div>
   );
 };
 
