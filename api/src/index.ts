@@ -1,8 +1,7 @@
+export * from './endpoints';
+export * from './models';
 export * from './date';
-export * from './image';
 export * from './language';
-export * from './news';
-export * from './project';
+export * from './result';
+export * from './spineApi';
 export * from './utilities';
-
-export * from './SpineApi';

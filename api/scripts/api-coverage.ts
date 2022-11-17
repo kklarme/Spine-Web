@@ -20,10 +20,10 @@ export interface ComparedRoute extends Route {
 export const REMOTE_SOURCE_URLS = [
   'https://raw.githubusercontent.com/ClockworkOrigins/Spine/master/src/server/DatabaseServer.cpp',
 ];
-export const REMOTE_ROUTE_REGEX = /"[^]([/].*)"][[]"(.*)"]/g;
+export const REMOTE_ROUTE_REGEX = /"[^](\/.*)"]\["(.*)"]/g;
 
-export const LOCAL_SOURCE_PATHS = ['src/SpineApi.ts'];
-export const LOCAL_ROUTE_REGEX = /axios[.](.*)[(]\s*["'`].*([/].*)\s*["'`]/g;
+export const LOCAL_SOURCE_PATHS = ['src/spineApi.ts'];
+export const LOCAL_ROUTE_REGEX = /axios[.]([^<]*)<?.*>?[(]\s*["'`].*(\/.*)\s*["'`]/g;
 
 export function getLineNumber(match: RegExpMatchArray): number {
   if (!match.index || !match.input) {
@@ -97,6 +97,7 @@ export async function getComparedRoutes(): Promise<ComparedRoute[]> {
     (result, foundRoutes) => [...result, ...foundRoutes],
     [],
   );
+  console.log(localRoutes)
 
   return compareRoutes(sourceRoutes, localRoutes);
 }
