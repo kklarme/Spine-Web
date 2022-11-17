@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export abstract class Result<O extends object = any, R extends object = any> {
   readonly value: R;
 
