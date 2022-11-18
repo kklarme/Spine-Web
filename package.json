@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
+    "postinstall": "npm run build --workspace=api",
     "build": "npm run build --workspaces",
     "eslint": "npm run eslint --workspaces",
     "prettier": "npm run prettier --workspaces"
