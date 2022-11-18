@@ -7,12 +7,12 @@ const exec = promisify(childProcess.exec);
 
 (async () => {
   const upgradeType = process.argv[3] || 'patch';
-  const rootPath = join(__dirname, '..');
+  const rootPath = join(__dirname, '../..');
 
   const apiPath = join(rootPath, 'api');
   const { stdout } = await exec(`npm version ${upgradeType}`, { cwd: apiPath });
   const match = /v(.*)\n?/.exec(stdout);
-  if (!match[1]) {
+  if (!match?.[1]) {
     throw new Error(`Could not detect version from stdout: '${stdout}'`);
   }
   const newApiVersion = match[1];

@@ -1,4 +1,4 @@
-import { ComparedRoute, FileMeta, getComparedRoutes } from './api-coverage';
+import { ComparedRoute, FileMeta, getComparedRoutes } from './apiCoverage';
 import { promises } from 'fs';
 
 const prettier = require('prettier');

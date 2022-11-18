@@ -12,7 +12,8 @@
     "watch": "tsc -w",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write src",
-    "generate-api-coverage": "ts-node scripts/generate-api-coverage.ts --cwd ."
+    "generate-api-coverage": "ts-node scripts/generateApiCoverage.ts --cwd .",
+    "prepublishOnly": "npm run build && ts-node scripts/prePublish.ts"
   },
   "dependencies": {
     "axios": "^0.26.1",
