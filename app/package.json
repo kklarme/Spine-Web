@@ -21,7 +21,7 @@
     "react-table": "^7.7.0",
     "react-window": "^1.8.6",
     "sharp": "^0.30.3",
-    "spine-api": "^0.1.1",
+    "spine-api": "^0.1.2",
     "type-fest": "^2.12.2"
   },
   "devDependencies": {
