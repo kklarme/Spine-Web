@@ -1,2 +1,2 @@
 # Spine-Web
-Web client for Spine the Gothic mod manager
+Web client for [Spine](https://github.com/ClockworkOrigins/Spine) the Gothic mod manager
